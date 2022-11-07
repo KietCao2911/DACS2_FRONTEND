@@ -5,10 +5,17 @@ import { Link } from 'react-router-dom'
 import "./OrderDsc.scss"
 import { useSelector,useDispatch } from 'react-redux'
 import convertVND from '~/components/utils/ConvertVND'
+import { useEffect } from 'react'
+import GioHangSlice,{ViewCart} from '~/redux/slices/GioHang/GioHangSlice'
 const OrderDsc = (props) => {
     const {ship} = props;
     const {totalPrice,totalQty,finalPrice,ghnAPI} = useSelector(state=>state.GioHang);
     const {FeeInfo} = useSelector(state=>state.GiaoHangNhanh);
+    const dispatch = useDispatch()
+    useEffect(()=>
+    {
+      dispatch(ViewCart())
+    },[])
   return (
     <div className="PaymentInfo" >
     <div className="content">

@@ -11,6 +11,10 @@
             display: flex;
             justify-content: space-between;
             padding: 2rem 0;
+            .name{
+                font-size: 1.8rem;
+                font-weight: 500;
+            }
         }
         .nav{
            
@@ -22,17 +26,8 @@
                input[type="radio"]{
                 display: none;
             }
-            .NavItem
-            {
-                input[type="radio"]:checked + a{
-                    border-bottom: 1px solid black;
-            }
-                label{
-                    a{
-                        font-size: 1.8rem;
-                        font-weight: 500;
-                    }
-                }
+            a.active{
+                border-bottom:.2rem solid black;
             }
         }
     }

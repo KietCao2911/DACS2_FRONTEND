@@ -94,7 +94,7 @@ border: none;
   border-radius: 4px;
 }
 $mobile-width: 480px; 
-$tablet-width: 992px; 
+$tablet-width: 1080px; 
 $desktop-width: 1200px;  
 
 @mixin mobile { @media (max-width: #{$mobile-width - 1px}) {     

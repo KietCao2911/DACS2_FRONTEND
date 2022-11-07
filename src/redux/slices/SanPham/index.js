@@ -170,6 +170,7 @@ const SanPhamSlice = createSlice({
     });
     builder.addCase(fetchPutProduct.fulfilled, (state, action) => {
       state.loading.btnLoading = false;
+      localStorage.clear("cart")
     });
     builder.addCase(fetchPutProduct.rejected, (state) => {
       state.loading.btnLoading = false;

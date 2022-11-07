@@ -4,9 +4,16 @@
     {
         width: 69%;
         margin-right: 1%;
+        @include tablet{
+            width: 100%;
+        }
     }
     .CartPayment{
         width: 29%;
         margin-left: 1%;
+        @include tablet{
+            width: 100%;
+        }
+
     }
 }
