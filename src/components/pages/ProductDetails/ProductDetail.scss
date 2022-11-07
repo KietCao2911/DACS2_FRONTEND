@@ -1,0 +1,51 @@
+.ProductDetail
+{
+   
+    .ProductDscPC
+    {
+        
+        .ImgContainer
+        {
+            display:grid;
+            grid-template-columns: 1fr 1fr ;
+            .ant-image:first-child{
+                grid-column: 1/3;
+            }
+        }
+       
+    }
+    .ProductInfo
+    {
+        height: 100%;
+        width: 100%;
+        
+        padding:2rem 3rem;
+       .InfoHeader
+       {
+        display: flex;
+        justify-content: space-between;
+       }
+     
+       .InfoTitle
+       {
+        line-height: 1.2;
+        font-size: 4.2rem;
+       }
+       .AddToCart
+       {
+        cursor: pointer;
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid black;
+        transition: .25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &:hover{
+            background-color: black;
+            color:white;
+        }
+       }
+    }
+  
+}

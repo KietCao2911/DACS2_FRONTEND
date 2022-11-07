@@ -1,0 +1,22 @@
+.ColorChecked
+{
+    label
+    {
+        display: inline-block;
+        padding: 1rem;
+        border-radius:50%;
+        transition: 1s ease;
+        background-color: red;
+    }
+       
+    input[type='radio']
+    {
+        display: none;
+    }
+    input[type='radio']:checked + label 
+    {
+        opacity: .5;
+        border: .3rem solid black;
+        position: absolute;
+    }
+}

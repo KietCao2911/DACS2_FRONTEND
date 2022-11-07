@@ -1,0 +1,12 @@
+@import "./src/components/GlobalStyles/GlobalStyle.scss";
+.CartPage{
+    .ProductsInfo
+    {
+        width: 69%;
+        margin-right: 1%;
+    }
+    .CartPayment{
+        width: 29%;
+        margin-left: 1%;
+    }
+}

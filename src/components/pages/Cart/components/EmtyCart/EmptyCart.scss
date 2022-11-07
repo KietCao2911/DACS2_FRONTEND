@@ -1,0 +1,16 @@
+.EmptyCart
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1{
+        font-weight: 900;
+    }
+    p{
+        font-weight: 500;
+    }
+    .btnGetStarted{
+        display: inline;
+    }
+}

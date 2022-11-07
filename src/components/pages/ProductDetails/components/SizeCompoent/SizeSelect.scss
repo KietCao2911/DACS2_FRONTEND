@@ -1,0 +1,28 @@
+
+.SizeRadio
+{
+    label
+    {
+        display: block;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        // width: 8rem;
+        text-align: center;
+        transition: .15s linear;
+        cursor: pointer;
+        &:hover{
+            background-color: black;
+            color: white;
+        }
+    }
+   
+    input[type='radio']
+    {
+        display: none;
+    }
+    input[type='radio']:checked + label 
+    {
+            background-color: black;
+            color: white;
+    }
+}

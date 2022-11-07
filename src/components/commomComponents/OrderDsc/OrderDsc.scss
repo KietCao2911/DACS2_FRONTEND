@@ -1,0 +1,19 @@
+.PaymentInfo{
+    width: 100%;
+    .content{
+        padding: 2rem;
+        background-color: white;
+
+        .QtyTotal{
+            display: flex;
+            justify-content: space-between;
+        }
+        .TotalPrice{
+            display: flex;
+            justify-content: space-between;
+        }
+        content > div{
+                margin: .5rem 0;
+        }
+    }
+}

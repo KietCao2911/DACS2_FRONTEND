@@ -1,0 +1,42 @@
+.PrductInfoItem{
+    position: relative;
+    max-height: 50rem;
+    margin-bottom: 4rem;
+    display: block;
+    cursor: pointer;
+    color: unset;
+    background-color: white;
+    border:1px solid #333;
+    // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        &:hover{
+        color: unset;
+    }
+    .closeIcon{
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+    .Container{
+        display: flex;
+        .img{
+         max-width: 35rem;  
+         max-height: 25rem;
+         width: 50%;
+         img{
+            object-fit: contain;
+         }
+        }
+        .content{
+            padding: 2rem;
+            .name{
+                display: flex;
+                justify-content: space-between;
+            }
+            .SizeSelect{
+                select{
+                    padding: 1rem 2rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+.InputText{
+    position: relative;
+    width: 100%;
+    display: flex;
+    margin: 2rem 0;
+    padding: 0 1rem;
+    flex-direction: column;
+    .IconClose{
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+
+    }
+    label{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 2rem;
+        transition: .3s ease;
+        opacity: .8;
+        z-index: 0;
+        pointer-events: none;
+    }
+    input{
+        padding: 2rem;
+        border:1px solid #ccc;
+    }
+   input:focus + label{
+    top: 0;
+    background-color: white;
+   }
+   .error{
+    // margin: .5rem 1rem;
+    :has(> input )
+    {
+        border:1px solid red;
+    }
+    bottom: -2rem;
+    opacity: .8;
+    color :red;
+    position: absolute;
+}
+}
+.onClickEvent {
+    border:1px solid black;
+    padding: 1rem 2rem;
+    + label{
+        top: 0;
+    }
+}

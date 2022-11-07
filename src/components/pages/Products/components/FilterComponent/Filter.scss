@@ -1,0 +1,15 @@
+.Filter
+{
+ .BtnFilter
+ {
+    display: flex;
+    align-items: center;
+    padding: 1rem; 
+    border: 1px solid black;
+    cursor: pointer;
+    transition: ease .25s;
+    &:hover{
+        color: rgb(131, 119, 119);
+    }
+ }   
+}

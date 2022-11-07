@@ -1,0 +1,42 @@
+.MePage
+{
+    .HeaderNavAccount
+    {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ccc;
+        padding: 1rem 0;
+        .infomation
+        {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 0;
+        }
+        .nav{
+           
+               display: flex;
+               justify-content: center;
+               :nth-child(2){
+                margin:0 2rem;
+               }
+               input[type="radio"]{
+                display: none;
+            }
+            .NavItem
+            {
+                input[type="radio"]:checked + a{
+                    border-bottom: 1px solid black;
+            }
+                label{
+                    a{
+                        font-size: 1.8rem;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+    .Content{
+        padding: 4rem 0;
+    }
+}

@@ -1,0 +1,116 @@
+@import "../../../GlobalStyles/GlobalStyle.scss";
+.MainHeader
+{
+   
+    position: relative;
+    .SubHeader
+    {
+        display: flex;
+        justify-content: space-between;
+        .Logo
+        {
+            width: 10rem;
+            height: 10rem;
+        }
+        .MenuIconMobile
+        {
+            display: none;
+        }
+        .SearchContainer__mobile
+        {
+            display: none;
+            align-items: center;
+            .iconSearch__mobile
+            {
+                margin-right: 1rem;
+            }
+        }
+        .Menu{
+            .MenuMobile
+            {
+
+                display: none;
+            }
+        }
+        @include tablet{
+            .MenuIconMobile
+            {
+                display: flex;
+                align-items: center;
+            }
+            .Menu
+            {
+                
+                display: none;
+            }
+            .Actions
+            {
+                .UserInfo{
+                    display: none;
+                }
+                .Search_Container{
+                    display: none;
+                }
+            }
+            .SearchContainer__mobile
+            {
+                display: flex;
+            }
+    }
+    .Actions
+    {
+        display: flex;
+        align-items: center;
+        & > div
+        {
+            margin:0 1rem;
+        }
+        .Search_Container
+        {
+            & > div
+            {
+                padding:.3rem 1rem;
+            }
+            .content{
+                border: 0px solid white;
+                transition: ease .2s ;
+                display: flex;
+                align-items: center;
+                &:hover 
+                {
+                 border: 2px solid black;
+                }
+                .searchIcon{
+                   cursor: pointer;
+                }
+                .closeIcon
+                {
+                    cursor: pointer;
+                }
+            }
+            .SearchResult
+            {
+                width: 30rem;
+                z-index: 3;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                padding: 1rem 2rem;
+                background-color: white;
+                min-height: 35rem;
+              
+            }
+        }
+        .Cart_Container
+        {
+                display: flex;
+                align-items: center;
+                .cartIcon
+                {
+                    font-size: 3rem;
+                }
+        }
+    }
+    }
+
+} 
