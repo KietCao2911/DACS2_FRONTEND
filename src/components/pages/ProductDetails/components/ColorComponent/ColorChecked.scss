@@ -5,7 +5,6 @@
         display: inline-block;
         padding: 1rem;
         border-radius:50%;
-        transition: 1s ease;
         background-color: red;
     }
        
@@ -17,6 +16,6 @@
     {
         opacity: .5;
         border: .3rem solid black;
-        position: absolute;
+        // position: absolute;
     }
 }

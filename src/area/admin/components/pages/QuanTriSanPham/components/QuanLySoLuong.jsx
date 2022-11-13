@@ -104,6 +104,7 @@ const Item = ({
         message: "Cập nhật thành công!",
         type: "success",
       });
+      window.location.reload()
       setLoading({ ...loading, btnSua: false });
     } catch (err) {
       setLoading({ ...loading, btnSua: false });

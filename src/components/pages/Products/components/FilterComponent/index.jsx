@@ -51,7 +51,7 @@ const Filter = () => {
     dispatch(
       Api.fetchGetAllProductsUser({
         id: slug,
-        query: {
+        params: {
           sort,
           size,
           color,

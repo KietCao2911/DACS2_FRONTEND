@@ -8,8 +8,8 @@ import convertVND from '~/components/utils/ConvertVND'
 import { useEffect } from 'react'
 import GioHangSlice,{ViewCart} from '~/redux/slices/GioHang/GioHangSlice'
 const OrderDsc = (props) => {
-    const {ship} = props;
-    const {totalPrice,totalQty,finalPrice,ghnAPI} = useSelector(state=>state.GioHang);
+    const {disableBtnPayment} = props;
+    const {totalPrice,totalQty,finalPrice,ghnAPI,phiShip} = useSelector(state=>state.GioHang);
     const {FeeInfo} = useSelector(state=>state.GiaoHangNhanh);
     const dispatch = useDispatch()
     useEffect(()=>
@@ -26,16 +26,17 @@ const OrderDsc = (props) => {
      </div>
   
      </div>
-     {ship&&<div className="ShipPrice" style={{display:"flex",justifyContent:"space-between"}}>
+     {phiShip!=0&&<div className="ShipPrice" style={{display:"flex",justifyContent:"space-between"}}>
         <p>Phí giao hàng</p>
-        <p>{convertVND(ship)}</p>
+        <p>{convertVND(phiShip)}</p>
      </div>}
      <div className="TotalPrice">
          <h3>TỔNG</h3>
-         <div className="price"><b>{ convertVND(finalPrice)||convertVND("500000")}</b></div>
+         <div className="price"><b>{ convertVND(finalPrice)||convertVND("0")}</b></div>
      </div>
     </div>
-    <Link to="/giao-hang"> <MyButton Icon={<CreditCardOutlined />} style={{borderRadius:"unset"}}>THANH TOÁN</MyButton></Link>
+    {!disableBtnPayment&&  <Link to="/giao-hang">  <MyButton Icon={<CreditCardOutlined />} style={{borderRadius:"unset"}}>THANH TOÁN</MyButton></Link> }
+  
    
  </div>
   )

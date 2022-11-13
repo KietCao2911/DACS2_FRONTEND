@@ -24,3 +24,12 @@ export const GetRefreshToken = async () => {
     throw error;
   }
 };
+export const UpdateProfile  = async (id,body)=>
+{
+  try {
+    const res = await Method.Post("/api/Me/UpdateProfile/"+id,body);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}

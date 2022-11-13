@@ -1,6 +1,6 @@
 .HaveUserComponent
 {
-    .AddressSelectedItem{
+    .AddressSelecteItem{
         padding: 2rem;
         border:.1rem solid black;
         position: relative;
@@ -12,7 +12,6 @@
             position: absolute;
             right: -1.5rem;
             top: -1.5rem;
-            z-index: 99;
         }
         .action{
             a{
@@ -26,6 +25,7 @@
         }
     }
     .AddItem{
+        min-width: 35rem;
         width: 100%;
         min-height: 30rem;
         padding :2rem;
@@ -43,6 +43,19 @@
             bottom: 2rem;
             left: 2rem;
 
+        }
+    }
+    .SelectAddressGroup{
+        display: flex;
+    }
+    .ModalCustom{
+        .Actions{
+            display: flex;
+            justify-content: flex-end;
+            .MyButton{
+                border-radius: unset;
+             
+            }
         }
     }
 }

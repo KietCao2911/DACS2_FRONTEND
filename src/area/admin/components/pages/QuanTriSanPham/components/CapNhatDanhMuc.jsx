@@ -8,38 +8,61 @@ const { Option } = Select;
 const CapNhatDanhMuc = ({ defaultValue }) => {
   const [openModal, setOpenModal] = useState(false);
   const [catName, setCatName] = useState("");
+  const [ID,setID] = useState({ID:null,
+  parentID:null})
+
   const [form] = Form.useForm();
   console.log({ defaultValue });
   const [Muc0, setMuc0] = useState({
     state: false,
-    Id: null,
+    Id:defaultValue&&defaultValue[0]?.idDanhMuc|| null,
+    parentId:defaultValue&&defaultValue[0]?.parentId||null,
     items: [],
   });
 
   const [Muc1, setMuc1] = useState({
     state: false,
-    Id: null,
+    Id: defaultValue&&defaultValue[1]?.idDanhMuc||null,
+    parentId:defaultValue&&defaultValue[1]?.parentId||null,
     items: [],
   });
   const [Muc2, setMuc2] = useState({
     state: false,
-    Id: null,
+    Id: defaultValue&&defaultValue[1]?.idDanhMuc||null,
+    parentId:defaultValue&&defaultValue[2]?.parentId||null,
     items: [],
   });
   const Muc0Change = (e) => {
     form.setFieldsValue({ Muc1: null, Muc2: null });
-    setMuc0({ ...Muc0, state: true, Id: e });
+    if(e==null)
+    {
+      setMuc0({items:Muc0.items,Id:null,parentId:null,state:true});
+      setMuc1({items:[],Id:null,parentId:null,state:false});
+      setMuc2({items:[],Id:null,parentId:null,state:false});
+    }
+    else
+    {
+
+      setMuc0({ ...Muc0, state: true, Id: e,parentId:-1 });
+    }
     const FetchCatLevel0 = async () => {
       const res = await DanhMucApi.GetCategoryByParentId(e);
-      setMuc1({ ...Muc1, items: res, Id: e });
+      setMuc1({items: res });
     };
     if (e != null) {
       FetchCatLevel0();
     }
   };
   const Muc1Change = (e) => {
-    console.log({ MUC1CHANGE: e });
-    setMuc1({ ...Muc1, state: true, Id: e });
+    if(e==null)
+    {
+      setMuc1({items:Muc1.items,Id:null,parentId:null,state:false});
+      setMuc2({items:[],Id:null,parentId:null,state:false});
+    }
+    else{
+
+      setMuc1({ ...Muc1, state: true, Id: e ,parentId:Muc0.Id});
+    }
     const FetchCatLevel1 = async () => {
       const res = await DanhMucApi.GetCategoryByParentId(e);
       setMuc2({ ...Muc2, items: res, Id: e });
@@ -52,7 +75,7 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
   const Muc2Change = (e) => {
     const FetchCatLevel2 = async () => {
       const res = await DanhMucApi.GetCategoryByParentId(e);
-      setMuc2({ ...Muc2, items: res, Id: e });
+      setMuc2({ ...Muc2, items: res, Id: e ,parentId:Muc1.Id});
     };
     if (e != null) {
       FetchCatLevel2();
@@ -60,8 +83,8 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
   };
   useEffect(() => {
     const FetchCatLevel0 = async () => {
-      const res = await DanhMucApi.GetCategoryByParentId(0);
-      setMuc0({ ...Muc0, Id: 0, items: res });
+      const res = await DanhMucApi.GetCategoryByParentId(-1);
+      setMuc0({Id:defaultValue&&defaultValue[0]?.idDanhMuc||null,parentId:defaultValue&&defaultValue[0]?.parentId,state:Muc0.state,items:res})
     };
     FetchCatLevel0();
     if (defaultValue?.length > 0) {
@@ -89,6 +112,10 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
       FetchCatLevel2();
     }
   }, [defaultValue]);
+  const handleSubmit=()=>
+  {
+    
+  }
   return (
     <>
       <Button onClick={() => setOpenModal(true)}>Cập nhật danh mục</Button>
@@ -132,7 +159,7 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
               </Select>
             </Form.Item>
           )}
-          <MyButton onClick={() => console.log({ Muc0, Muc1, Muc2 })}>
+          <MyButton onClick={() => console.log({ Muc0,Muc1,Muc2 })}>
             GỬI
           </MyButton>
           <MyButton

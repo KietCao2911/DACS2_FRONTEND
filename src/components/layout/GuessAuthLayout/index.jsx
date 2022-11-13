@@ -3,6 +3,8 @@ import "./GuessAuthLayout.scss";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginBg from "~/assets/LoginBg.png"
+
 const GuessAuthLayout = ({ children }) => {
   const { user } = useSelector((state) => state.XacThuc);
   let navigate = useNavigate();
@@ -12,7 +14,7 @@ const GuessAuthLayout = ({ children }) => {
     }
   }, [user.role]);
   return (
-    <div className="GuessAuthLayout">
+    <div className="GuessAuthLayout" style={{background:LoginBg}}>
       <div className="mainAuthLayout">
         <h1>Chào mừng đến với SHOP</h1>
         {children}

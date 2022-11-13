@@ -57,9 +57,9 @@ export const fetchDeleteProduct = createAsyncThunk(
 );
 export const fetchGetAllProductsUser = createAsyncThunk(
   "fetchGetAllProductsUser",
-  async (params) => {
-    const { id, query } = params;
-    const res = await Api.GetAllProductsUser(id, query);
+  async (payload) => {
+    const { id, params } = payload;
+    const res = await Api.GetAllProductsUser(id, params);
     return res;
   }
 );
@@ -78,7 +78,7 @@ const SanPhamSlice = createSlice({
       const colorId = action.payload.trim();
 
       console.log({ colorId });
-      let colors = [...state.product.mauSac];
+      let colors = [...state.product.color];
       let sizess = [...state.product.chiTietSoLuong];
       console.log({colors})
       let imgs = colors.filter((item) => item.idMaumau.trim() == colorId);
@@ -138,9 +138,9 @@ const SanPhamSlice = createSlice({
       state.product.colorSelected =
         state.product?.chiTietSoLuong[0]?.idmau.trim() || null;
       const colorId = state.product.colorSelected;
-      console.log(colorId);
-      let colors = [...state.product.mauSac];
-      let sizess = [...state.product.chiTietSoLuong];
+      console.log({colorId});
+      let colors = state.product?.color||[];
+      let sizess = state.product?.chiTietSoLuong||[];
       let imgs = colors.filter((item) => item.idMaumau.trim() == colorId);
       let sizes = sizess?.filter((item) => item.idmau?.trim() == colorId);
       let sizeResult = sizes || [];

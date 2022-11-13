@@ -27,20 +27,17 @@ const ColorComponent = ({ items, setSize }) => {
   const dispatch = useDispatch();
   return (
     <>
-        <Row gutter={10}>
+        <Row gutter={12} >
           {items &&
             items?.map((item) => {
               {
                 console.log({ item });
               }
               return (
-                <Col key={uuidv4()} span={4}>
-                  {" "}
-                  <Item
-                    value={item.idmau.trim()}
-                    onChange={(e) => dispatch(getImgs(item.idmau))}
-                  />
-                </Col>
+              <Col  span={3}>  <Item
+              value={item.idmau.trim()}
+              onChange={(e) => dispatch(getImgs(item.idmau))}
+            /></Col>
               );
             })}
         </Row>

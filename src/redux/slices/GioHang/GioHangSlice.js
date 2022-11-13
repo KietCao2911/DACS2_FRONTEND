@@ -85,8 +85,10 @@ const GioHangSlice = createSlice({
           var index = state.cartItems.indexOf(cartItem);
           state.cartItems[index].qty++;
           state.totalPrice += action.payload.giaBan;
+          state.finalPrice = state.totalPrice;
           state.totalQty+=1;
           state.cartItems[index].giaBanTong +=state.cartItems[index].giaBan;
+          state.phiShip = 0;
           localStorage.setItem("cart", JSON.stringify(state));
           notification.open({
             type:"success",
@@ -97,6 +99,8 @@ const GioHangSlice = createSlice({
           state.cartItems.push(itemAdd);
           state.totalQty++;
           state.totalPrice += action.payload.giaBan;
+          state.finalPrice = state.totalPrice;
+          state.phiShip = 0;
           localStorage.setItem("cart", JSON.stringify(state));
           notification.open({
             type:"success",
@@ -201,13 +205,15 @@ const GioHangSlice = createSlice({
             const phiShip =action.payload.data.total;
             state.ghnAPI.FeeInfo = action.payload;
             state.phiShip =phiShip;
-            let init = 0;
+            let totalPrice = 0;
             let cartItems = current(state.cartItems)
-            let totalPrice = cartItems.reduce((prev,cur)=>
+             cartItems.forEach((item)=>
             {
-              return prev+cur.giaBan;
-            },init)
+              totalPrice +=item.giaBan * item.qty; 
+            })
+            console.log({cartItems})
             state.finalPrice = totalPrice+phiShip;
+            localStorage.setItem("cart", JSON.stringify(state));
         })
         builder.addCase(fetchPostCalFee.rejected,(state,action)=>{
           alert("LOI")

@@ -19,11 +19,9 @@ const PhoneOTP = () => {
   });
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.XacThuc);
-  console.log({ OTP });
-  console.log({ user, token });
+  console.log({phoneValue})
   const handleOnChangePhoneNumber = (e) => {
     const regex = /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/;
-    setPhoneValue(e.target.value);
     if (e.target.value.match(regex)) {
       setDisable((prev) => {
         return { ...prev, status: false };
@@ -34,6 +32,8 @@ const PhoneOTP = () => {
         return { ...prev, status: true };
       });
     }
+    setPhoneValue(e.target.value);
+
   };
   useEffect(() => {
     if (disable.time > 0 && disable.status == true && disable.firstTimeClick) {
@@ -69,12 +69,14 @@ const PhoneOTP = () => {
     setUpCaptcha();
   }, []);
   const onSignInSubmit = (e) => {
-    setDisable({ status: true, time: 10, firstTimeClick: true });
     // setUpCaptcha();
-    let phoneNumber = "+84" + phoneValue;
-    console.log({ phoneNumber });
-    const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
+    if(phoneValue.length>0)
+    {
+      console.log("onSignInSubmit")
+      let phoneNumber = "+84" + phoneValue;
+      console.log({ phoneNumber });
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
       .then((confirmationResult) => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
@@ -86,6 +88,11 @@ const PhoneOTP = () => {
         // ...
         console.log({ error });
       });
+    }
+    else{
+      alert("Wrong phone number!")
+    }
+    setDisable({ status: true, time: 10, firstTimeClick: true });
   };
   const handleVerifierOTP = () => {
     if (OTP.length >= 6) {

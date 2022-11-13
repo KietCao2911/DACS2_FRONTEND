@@ -13,6 +13,7 @@ html
 {
     font-size: 62.5%;
     user-select: none;
+    overflow-x: hidden;
 }
 body{
     font-family: 'Montserrat', sans-serif;
@@ -33,6 +34,7 @@ button{
 border: none;  
 }
 .headingPage{
+  margin:1.2rem;
   font-size: 3rem;
   font-weight: bolder;
 }

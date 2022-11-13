@@ -47,7 +47,7 @@ request.interceptors.response.use(
     }
   }
 );
-export const Get = async (path, config) => {
+export const Get = async (path,config) => {
   const response = await request.get(path,config);
   return response.data;
 };

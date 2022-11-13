@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div>
       <BSTSlider />
-      <strong className="headingPage">VỪA CẬP NHẬT</strong>
+      <div className="headingPage">VỪA CẬP NHẬT</div>
       <NewRelease />
     </div>
   );

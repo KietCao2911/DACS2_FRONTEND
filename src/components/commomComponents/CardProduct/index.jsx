@@ -21,14 +21,14 @@ const CardProduct = ({ value = {} }) => {
         className={"Card"}
         css={{
           " &::before": {
-            backgroundColor: "#" + color[0]?.value,
+            backgroundColor: "#" + color[0]?.idMaumau,
           },
         }}
       >
         <div className="ImgBox">
           <img
             src={
-              `https://localhost:44328/wwwroot/res/SanPhamRes/Imgs/${maSanPham.trim()}/${color[0]?.idMaumau.trim()}/${
+              `https://localhost:44328/wwwroot/res/SanPhamRes/Imgs/${maSanPham?.trim()}/${color[0]?.idMaumau?.trim()}/${
                 color[0]?.hinhAnhInfo[0]?.name
               }` || null
             }
@@ -49,9 +49,7 @@ const CardProduct = ({ value = {} }) => {
             ))}
           </div>
           <div className="Price">199999VND</div>
-          <a href="#">
-            <div className="btn">BUY NOW</div>
-          </a>
+          
         </div>
       </DivCard>
     </Link>

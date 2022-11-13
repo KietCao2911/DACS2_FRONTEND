@@ -42,7 +42,7 @@ export const DeleteProduct = async (id) => {
 };
 export const GetAllProductsUser = async (id, params) => {
   try {
-    const res = await Method.Get("/api/SanPham/" + id, params);
+    const res = await Method.Get("/api/SanPham/" + id, {params});
     return res;
   } catch (err) {
     throw err;
@@ -56,7 +56,14 @@ export const GetAllLatestProducts = async () => {
     throw err;
   }
 };
-
+export const PutCategoryProduct = async(maSP,body)=>
+{
+  try {
+    const res = await Method.Post("/api/DanhMucDetails/"+maSP,body);
+  } catch (error) {
+    throw error;
+  }
+}
 export const Uploads = async (MaSP, MaMau, body, config) => {
   try {
     const res = await Method.Post(

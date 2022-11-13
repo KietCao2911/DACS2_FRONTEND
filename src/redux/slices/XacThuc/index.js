@@ -28,6 +28,12 @@ export const fetchGetRefreshToken = createAsyncThunk(
     return res;
   }
 );
+export const fetchUpdateProfile =createAsyncThunk("fetchUpdateProfile",async(params)=>
+{
+  const {id,kh} = params
+  const res = await Api.UpdateProfile(id,kh);
+  return res;
+})
 const XacThucSlice = createSlice({
   name: "XacThuc",
   initialState,
@@ -42,6 +48,10 @@ const XacThucSlice = createSlice({
       localStorage.setItem("access__token", action.payload.token);
       localStorage.setItem("refresh__token", action.payload.refreshToken);
     });
+    builder.addCase(fetchUpdateProfile.fulfilled,(state,action)=>
+    {
+      state.user.info = action.payload;
+    })
   },
 });
 

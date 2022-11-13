@@ -2,13 +2,19 @@ import React from 'react'
 import { InputText } from '~/components/commomComponents/InputText'
 import { SelectInput } from '~/components/commomComponents/SelectInput'
 import { useDispatch,useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect,useMemo } from 'react'
 import GioHangSlice,* as GiaoHangNhanhApi from '~/redux/slices/GioHang/GioHangSlice'
+import ThanhToanSlice,{AddressInfo,ChangeValueField} from '~/redux/slices/ThanhToanSlice'
 import "./NoneUserComponent.scss"
-const NoneUserInfo = () => {
+import { useState } from 'react'
+import { Address } from 'glamorous'
+const NoneUserInfo = (props) => {
     const {ghnAPI,totalPrice} = useSelector(state=>state.GioHang);
     const {Provinces,Districts,Wards,FeeInfo,DistrictID,Loading} = ghnAPI;
+    const {GuessInfo,setGuessInfo} =props
     const dispatch = useDispatch();
+    console.log("NONE USER CPN")
+    console.log({PROPSNONEUSER:props})
     useEffect(()=>
     {
       dispatch(GiaoHangNhanhApi.fetchGetProvinces())
@@ -18,37 +24,78 @@ const NoneUserInfo = () => {
         console.log({event:e.target.value})
         if(e.target.value == null)
         {
-          return;
+          alert("PROVI NULL")
         }
         else
         {
+          setGuessInfo({...GuessInfo,ProvinceID:e.target.value,ProvinceName:e.target.options[e.target.selectedIndex].text})
           dispatch(GiaoHangNhanhApi.fetchGetDistrict(e.target.value))
         }
     }
+    const getWards =(e)=>
+    {
+      if(e.target.value == null)
+      {
+        alert("DISTRICT NULL")
+      }
+      else
+      {
+        
+        setGuessInfo({...GuessInfo,DistrictID:e.target.value,DistrictName:e.target.options[e.target.selectedIndex].text})
+        dispatch(GiaoHangNhanhApi.fetchGetWard(e.target.value))
+      }
+    }
     const CalFee =(e)=>
     {
-          dispatch(GiaoHangNhanhApi.fetchPostCalFee({
-        "from_district_id":1572,
-        "service_type_id":2,
-        "to_district_id":Wards.data[0].DistrictID,
-        "to_ward_code":e.target.value,
-        "height":50,
-        "length":20,
-        "weight":200,
-        "width":20,
-        "insurance_value":totalPrice,
-        "coupon": null
+      if(e.target.value == null)
+      {
+        alert("WARD NULL")
+        return ;
+      }
+      else
+      {
+   
+        setGuessInfo({...GuessInfo,WardId:e.target.value,WardName:e.target.options[e.target.selectedIndex].text})
+        dispatch(GiaoHangNhanhApi.fetchPostCalFee({
+          "from_district_id":1572,
+          "service_type_id":2,
+          "to_district_id":Wards.data[0].DistrictID,
+          "to_ward_code":e.target.value,
+          "height":50,
+          "length":20,
+          "weight":200,
+          "width":20,
+          "insurance_value":totalPrice,
+          "coupon": null
         }))
+        
+      }
+        
+      
+      
+    }
+    const handleOnChangeInfo=(e,key)=>
+    {
+      setGuessInfo({...GuessInfo,[key]:e});
+    }
+
+    const handleChangeDsc =(e)=>
+    {
+      setGuessInfo({...GuessInfo,AddressDsc:e})
+    }
+    const handlePost=()=>
+    {
+
     }
   return (
    <div class="NoneUserInfo">
         <h1>THÔNG TIN GIAO HÀNG</h1>
         <div className="InfoGuessName" >
-        <InputText label="Họ"></InputText>
-        <InputText label="Tên"></InputText>
+        <InputText maxLength={50} value={GuessInfo.Name} label="Tên"onChange={(e)=>handleOnChangeInfo(e,"Name")}></InputText>
         </div>
         <div  style={{margin:"0 -1rem"}}>
-        <InputText label="Chi tiết địa chỉ (Số nhà, tên đường,...)"></InputText>
+        <InputText onChange={(e)=>handleChangeDsc(e)}  value={GuessInfo.AddressDsc} label="Chi tiết địa chỉ (Số nhà, tên đường,...)"></InputText>
+        <InputText maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Phone")} number={true} value={GuessInfo.Phone}  label="Số điện thoại"></InputText>
         </div>
         <div  className="InfoAddress" >
         <SelectInput  loading={Loading.Provinces} name="province" defaultLabel="Tỉnh/Thành phố" onChange={e=>getDistricts(e)}>
@@ -57,7 +104,7 @@ const NoneUserInfo = () => {
             return <option  key ={item.ProvinceID}value={item.ProvinceID}>{item.ProvinceName}</option>
           })}
         </SelectInput>
-        <SelectInput loading={Loading.Districts} name="district" defaultLabel="Quận/Huyện" onChange={e=>dispatch(GiaoHangNhanhApi.fetchGetWard(e.target.value))}>
+        <SelectInput loading={Loading.Districts} name="district" defaultLabel="Quận/Huyện" onChange={e=>getWards(e)}>
         <option value={""}>Vui lòng chọn Quận/Huyện</option>
           {Districts.data&& Districts?.data?.map(item=>{
             return <option key ={item.DistrictId} value={item.DistrictID}>{item.DistrictName}</option>

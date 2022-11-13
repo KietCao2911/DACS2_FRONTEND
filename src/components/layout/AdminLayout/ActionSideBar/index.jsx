@@ -33,7 +33,8 @@ function ActionSideBar() {
         "3"
       ),
     ]),
-    getItem("Option 5", "5"),
+    getItem( <Link to={"/admin/trang-quan-tri-don-hang"}>Đơn hàng</Link>,
+   "5"),
     getItem("Option 6", "6"),
   ];
   return (

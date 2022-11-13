@@ -24,6 +24,22 @@ const MePage = () => {
   }])
   const params = useParams();
   const key = params['*']
+  const handleSetClass =(href)=>
+  {
+    const splitChar = key.split("/")
+    if(key==href)
+    {
+      return "active";
+    }
+    else if(href == splitChar[0])
+    {
+      return "active";
+    }
+    else
+    {
+      return "";
+    }
+  }
   return <div className="MePage PageContainer">
       <div className="HeaderNavAccount">
         <div className="infomation">
@@ -33,21 +49,20 @@ const MePage = () => {
         <div className="nav">
           {itemsNav.map((item,index)=>
             {
-              return <Link   className={key==item.href?"active":""} to={item.href} >{item.label}</Link>
+              return <Link   className={handleSetClass(item.href)} to={item.href} >{item.label}</Link>
  
             })}
         </div>
       </div>
 
-    <div className="Content">
     <Outlet/>
-    </div>
-
+<div className="Content">
     <Routes>
       <Route path="" element={<NewPage/>}></Route>
       <Route path="don-hang" element={<OrderPage/>}></Route>
-      <Route path="tai-khoan" element={<AccountPage/>}></Route>
+      <Route path="tai-khoan/*" element={<AccountPage/>}></Route>
     </Routes>
+    </div>
   </div>;
 };
 

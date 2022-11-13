@@ -8,14 +8,14 @@ function ProductInfoItem(props) {
     console.log({props})
     const {hinhAnhDisplay,giaBanDisplay,qty,sizeSelected,colorSelected,maSanPham,tenSanPham} = props;
     const img = hinhAnhDisplay[0]?.hinhAnhInfo[0]?.url;
-    console.log({img})
+    console.log({props})
     const dispatch =useDispatch();
     const handleRemoveItem =()=>
     {
         dispatch(RemoveItem({size:sizeSelected.idSize,color:colorSelected,maSanPham}))
     }
   return (
-    <Link to={"#"} className='PrductInfoItem'>
+    <Link to={"#"} className='PrductInfoItem' {...props}>
     <CloseOutlined  className="closeIcon" onClick={handleRemoveItem}/>
     <div className="Container">
         <div className="img">
@@ -28,6 +28,9 @@ function ProductInfoItem(props) {
             <p>{giaBanDisplay||"---"}</p>
             <div className="size">
                 <h3>KÍCH CỠ: {sizeSelected.sizeLabel} </h3>
+            </div>
+            <div className="color">
+            <h3>MÀU SẮC: <div style={{padding:"1rem",backgroundColor:`#${colorSelected}`}}></div> </h3>
             </div>
             <div className="SizeSelect">
                 <select value={qty}>

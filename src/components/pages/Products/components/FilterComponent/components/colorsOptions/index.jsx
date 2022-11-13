@@ -18,6 +18,10 @@ const ColorOptions = () => {
       label: "Vàng",
       value: "yellow",
     },
+    {
+      label: "Trằng",
+      value: "fff",
+    },
   ];
   let checkedItems = searchParams.get("color");
   const handleCheckBox = (e) => {

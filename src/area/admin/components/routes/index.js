@@ -14,6 +14,9 @@ const SanPhamBoSuuTap = lazy(() =>
 const CapNhatSanPham = lazy(() =>
   import("../pages/QuanTriSanPham/components/CapNhatSanPham")
 );
+const QuanTriDonHang = lazy(() =>
+import("../pages/QuanTriDonHang/")
+);
 export const adminRoute = [
   {
     path: "/admin",
@@ -33,6 +36,11 @@ export const adminRoute = [
   {
     path: "/admin/trang-quan-tri-danh-muc",
     element: QuanTriDanhMuc,
+    layout: "admin",
+  },
+  {
+    path: "/admin/trang-quan-tri-don-hang",
+    element: QuanTriDonHang,
     layout: "admin",
   },
   {
