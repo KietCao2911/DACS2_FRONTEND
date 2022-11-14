@@ -1,7 +1,7 @@
 import * as Method from "~/axiosRequest/request";
-export const GetAllProducts = async (params) => {
+export const GetAllProducts = async (id,params) => {
   try {
-    const res = await Method.Get("/api/admin/SanPham", params);
+    const res = await Method.Get("/api/admin/SanPham/"+id||null, params);
     return res;
   } catch (err) {
     throw err;
@@ -10,7 +10,7 @@ export const GetAllProducts = async (params) => {
 
 export const GetProductById = async (id) => {
   try {
-    const res = await Method.Get(`/api/admin/SanPham/${id}`);
+    const res = await Method.Get(`/api/admin/SanPham/san-pham/${id}`);
     return res;
   } catch (error) {
     throw error;
@@ -60,8 +60,27 @@ export const PutCategoryProduct = async(maSP,body)=>
 {
   try {
     const res = await Method.Post("/api/DanhMucDetails/"+maSP,body);
+    return res;
   } catch (error) {
     throw error;
+  }
+}
+export const PostAddQty = async(body)=>
+{
+  try {
+    const res = await Method.Post("/api/SoLuongDetail",body)
+    return res;
+  } catch (error) {
+    throw error
+  }
+}
+export const DeleteQty = async (id)=>
+{
+  try {
+    const res = await Method.Delete("/api/SoLuongDetail/"+id);
+    return res;
+  } catch (error) {
+    throw error
   }
 }
 export const Uploads = async (MaSP, MaMau, body, config) => {

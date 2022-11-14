@@ -14,8 +14,9 @@ const initialState = {
 
 export const fetchGetAllProducts = createAsyncThunk(
   "fetchGetAllProducts",
-  async (params) => {
-    const res = await Api.GetAllProducts(params);
+  async (props) => {
+    const {id,params} = props;
+    const res = await Api.GetAllProducts(id,{params});
     return res;
   }
 );
@@ -35,7 +36,7 @@ export const fetchPostProduct = createAsyncThunk(
       const res = await Api.PostProduct(body);
       return res;
     } catch (err) {
-      throw rejectWithValue(err);
+      throw err
     }
   }
 );
@@ -70,6 +71,25 @@ export const fetchGetLatestProducts = createAsyncThunk(
     return res;
   }
 );
+export const fetchPostAddQty =createAsyncThunk("fetchPostUpdateQty",async(params)=>
+{
+  const {body} = params;
+  const res = await Api.PostAddQty(body)
+  return res;
+})
+export const fetchDeleteAddQty =createAsyncThunk("fetchDeleteAddQty",async(params)=>
+{
+  const {id} = params;
+  const res = await Api.DeleteQty(id)
+  return res;
+})
+export const UploadFile = createAsyncThunk("UploadFile",async(params)=>
+{
+  const {maSP,maMau,body,config } = params;
+  console.log({params})
+  const res= await Api.Uploads(maSP,maMau,body,config)
+  return res;
+})
 const SanPhamSlice = createSlice({
   initialState,
   name: "SanPham",
@@ -102,6 +122,61 @@ const SanPhamSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //UploadFile
+    builder.addCase(UploadFile.fulfilled,(state,action)=>
+    {
+      const {maSanPham,maMau} = action.meta.arg;
+      const {} = action.payload;
+      const obj = state.product.color.find(x=>x.idMaumau.trim()==maMau?.trim());
+      const index = state.product.color.indexOf(obj)
+      state.product.color[index].hinhAnhInfo.push(action.payload);
+    })
+    //fetchDeleteAddQty
+    builder.addCase(fetchDeleteAddQty.fulfilled,(state,action)=>
+    {
+      let ctsl =[...current(state.product.chiTietSoLuong)];
+      let obj = state.product.chiTietSoLuong.find(x=>x.idmau.trim()==action.payload.maMau.trim());
+      let indexObj = state.product.chiTietSoLuong.indexOf(obj);
+      let qtyDetailObj = obj.sizeDetails.find(x=>x._id==action.meta.arg.id);
+      let indexDetail = state.product.chiTietSoLuong[indexObj].sizeDetails.indexOf(qtyDetailObj);
+      let myArrSizeDetails = [...obj.sizeDetails];
+      myArrSizeDetails.splice(indexDetail,1);
+      if(indexDetail>-1&&indexObj>-1)
+      {
+        state.product.chiTietSoLuong[indexObj].sizeDetails = [...myArrSizeDetails];
+        state.product.chiTietSoLuong = [...state.product.chiTietSoLuong];
+      }
+    })
+    //fetchPostUpdateQty
+    builder.addCase(fetchPostAddQty.fulfilled,(state,action)=>
+    {
+      alert("Success");
+      if(action.payload.action=="Add")
+      {
+      const ctsl =[...current(state.product.chiTietSoLuong)];
+        if(ctsl.length>0)
+        {
+          console.log({ctsl})
+          var obj = ctsl.find(x=>x.idmau.trim()==action.payload.maMau.trim());
+          console.log({obj});
+          var index = ctsl.indexOf(obj);
+          if(index>-1)
+          {
+            state.product.chiTietSoLuong[index].sizeDetails.push(action.payload)
+          }
+        }
+        else
+        {
+          state.product.chiTietSoLuong.push({idmau:action.payload.maMau.trim(),sizeDetails:[{...action.payload}]})
+        }
+      }
+     
+    })
+    builder.addCase(fetchPostAddQty.rejected,(state,action)=>
+    {
+      alert("ERROR");
+      console.log({details:action.payload})
+    })
     //fetchGetLatestProducts
     builder.addCase(fetchGetLatestProducts.pending, (state) => {
       state.loading.tableLoading = true;

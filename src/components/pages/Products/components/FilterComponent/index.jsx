@@ -49,7 +49,7 @@ const Filter = () => {
     const size = searchParams.get("size") || null;
     const color = searchParams.get("color") || null;
     dispatch(
-      Api.fetchGetAllProductsUser({
+      Api.fetchGetAllProducts({
         id: slug,
         params: {
           sort,

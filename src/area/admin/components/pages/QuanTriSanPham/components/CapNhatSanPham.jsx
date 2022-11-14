@@ -194,16 +194,8 @@ const CapNhatSanPham = ({
         <Form.Item label="Tên danh mục" name="IdDM">
           <CapNhatDanhMuc defaultValue={product.danhMuc} />
         </Form.Item>
-        <Form.Item label="Ảnh Thumbnail" name="img">
-          <UploadSingleFile
-            maSP={maSP}
-            fileInit={fileList}
-            setFileInit={setFileList}
-            fieldValue={form.setFieldsValue}
-          />
-        </Form.Item>
         <Form.Item label="Ảnh sản phẩm">
-          <UploadMutipleFile res={product.mauSac} MaSP={maSP} />
+          <UploadMutipleFile res={product.color} MaSP={maSP} />
         </Form.Item>
         <FormItem name={"Mota"} hidden></FormItem>
         <CKEditor
@@ -225,7 +217,7 @@ const CapNhatSanPham = ({
         </Button>
       </Form>
       <Modal
-        width={600}
+        width={"100%"}
         cancelText="Hủy"
         okButtonProps={{
           hidden: true,
@@ -235,7 +227,7 @@ const CapNhatSanPham = ({
         onCancel={() => setOpenModalQty(false)}
         onOk={() => setOpenModalQty(false)}
       >
-        <QuanLySoLuong init={product.soLuong} maSanPham={maSP} />
+        <QuanLySoLuong init={product.chiTietSoLuong} maSanPham={maSP} />
       </Modal>
     </div>
   );

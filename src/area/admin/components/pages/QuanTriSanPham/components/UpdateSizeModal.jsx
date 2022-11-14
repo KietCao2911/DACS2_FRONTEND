@@ -49,9 +49,9 @@ const UpdateSizeModal = ({
   }, []);
   return (
     <Modal
-      visible={visible}
+      visible={true}
       title="Cập nhật kích thước sản phẩm"
-      onCancel={() => setVisible(false)}
+      onCancel={() => setVisible(true)}
     >
       <Form.Item label="Kích thước khả dụng">
         <Checkbox.Group

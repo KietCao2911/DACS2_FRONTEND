@@ -10,6 +10,10 @@ const options = [
     label: "35",
     value: "2",
   },
+  {
+    label: "40",
+    value: "99",
+  },
 ];
 const SizeOptions = () => {
   const [searchParams, setSearchParams] = useSearchParams();
