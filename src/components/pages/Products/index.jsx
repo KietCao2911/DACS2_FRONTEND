@@ -53,32 +53,31 @@ const TrangSanPham = () => {
   const sort = searchParams.get("sort") || null;
   const size = searchParams.get("size") || null;
   const color = searchParams.get("color") || null;
-  useEffect(() => {
-    dispatch(
-      Api.fetchGetAllProductsUser({
-        id: slug,
-        query: {
-          sort,
-          size,
-          color,
-        },
-      })
-    );
-  }, [slug]);
+  // useEffect(() => {
+  //   dispatch(
+  //     Api.fetchGetAllProductsUser({
+  //       id: slug,
+  //       query: {
+  //         sort,
+  //         size,
+  //         color,
+  //       },
+  //     })
+  //   );
+  // }, [slug]);
   return (
     <div className="TrangSanPham">
       {tableLoading && <CustomSpin />}
       <div className="Filter">
         <Filter />
-        <Row>
+        <Row gutter={[20,20]} align="middle">
           {products.length > 0 ? (
             products.map((item) => {
               return (
                 <Col
                   key={item.maSanPham}
-                  sm={{ span: 24 }}
                   xs={{ span: 24 }}
-                  md={{ span: 12 }}
+                  md={{ span: 24 }}
                   xl={{ span: 6 }}
                 >
                   <CardProduct value={item} />

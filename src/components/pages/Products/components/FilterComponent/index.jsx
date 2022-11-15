@@ -44,6 +44,8 @@ const Filter = () => {
   const { Panel } = Collapse;
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.SanPham);
+  console.log({slug})
+
   useEffect(() => {
     const sort = searchParams.get("sort") || null;
     const size = searchParams.get("size") || null;
@@ -58,7 +60,7 @@ const Filter = () => {
         },
       })
     );
-  }, [searchParams]);
+  }, [searchParams,slug]);
   const handleAddSearchParams = () => {
     // setSearchParams({ sort, Test: "CaoKiet" });
   };

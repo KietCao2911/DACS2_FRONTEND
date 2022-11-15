@@ -90,6 +90,12 @@ export const UploadFile = createAsyncThunk("UploadFile",async(params)=>
   const res= await Api.Uploads(maSP,maMau,body,config)
   return res;
 })
+export const DeleteFile = createAsyncThunk("DeleteFile",async(params)=>
+{
+  const {fileName,_id,maSP,maMau} = params;
+  const res= await Api.DeleteImg(fileName,_id,maSP,maMau);
+  return res;
+})
 const SanPhamSlice = createSlice({
   initialState,
   name: "SanPham",
@@ -97,7 +103,6 @@ const SanPhamSlice = createSlice({
     getImgs: (state, action) => {
       const colorId = action.payload.trim();
 
-      console.log({ colorId });
       let colors = [...state.product.color];
       let sizess = [...state.product.chiTietSoLuong];
       console.log({colors})
@@ -105,7 +110,7 @@ const SanPhamSlice = createSlice({
       let sizes = sizess.filter((item) => item.idmau.trim() == colorId);
       let sizeResult = sizes || [];
       let imgResult = imgs || [];
-      console.log({ reducers: colors, sizess });
+
       state.product.hinhAnhDisplay = imgResult;
       state.product.sizeDisplay = sizeResult;
       state.product.colorSelected = colorId;
@@ -122,14 +127,44 @@ const SanPhamSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //DeleteFile
+    builder.addCase(DeleteFile.fulfilled,(state,action)=>
+    {
+      const {fileName,_id,maSP,maMau} = action.meta.arg;
+
+      console.log({maMau})
+      const {} = action.payload;
+      const colors = current(state.product.color);
+      const obj = colors.find(x=>x.idMaumau.trim()==maMau?.trim());
+      const index = colors.indexOf(obj)
+      if(obj && index>-1)
+      {
+        const objHinhAnh = colors[index].hinhAnhInfo.find(x=>x.uid==_id);
+        const indexHinhAnh = colors[index].hinhAnhInfo.indexOf(objHinhAnh);
+        state.product.color[index].hinhAnhInfo.splice(indexHinhAnh,1);
+      }
+      
+    })
     //UploadFile
     builder.addCase(UploadFile.fulfilled,(state,action)=>
     {
       const {maSanPham,maMau} = action.meta.arg;
-      const {} = action.payload;
-      const obj = state.product.color.find(x=>x.idMaumau.trim()==maMau?.trim());
-      const index = state.product.color.indexOf(obj)
-      state.product.color[index].hinhAnhInfo.push(action.payload);
+      const colors = current(state.product.color);
+      const obj = colors.find(x=>x.idMaumau.trim()==maMau?.trim());
+      const index = colors.indexOf(obj)
+      if(obj && index>-1)
+      {
+        console.log("haveobj")
+        console.log({obj,index})
+        state.product.color[index].hinhAnhInfo.push(action.payload);
+      }
+      else
+      {
+        console.log("No")
+        const data ={idMaumau:maMau,hinhAnhInfo:[{...action.payload}]};
+        console.log({data})
+        state.product.color.push({idMaumau:maMau,hinhAnhInfo:[{...action.payload}]})
+      }
     })
     //fetchDeleteAddQty
     builder.addCase(fetchDeleteAddQty.fulfilled,(state,action)=>
@@ -213,11 +248,12 @@ const SanPhamSlice = createSlice({
       state.product.colorSelected =
         state.product?.chiTietSoLuong[0]?.idmau.trim() || null;
       const colorId = state.product.colorSelected;
-      console.log({colorId});
       let colors = state.product?.color||[];
       let sizess = state.product?.chiTietSoLuong||[];
       let imgs = colors.filter((item) => item.idMaumau.trim() == colorId);
       let sizes = sizess?.filter((item) => item.idmau?.trim() == colorId);
+      console.log({colors})
+      console.log({imgs})
       let sizeResult = sizes || [];
       let imgResult = imgs || [];
       state.product.hinhAnhDisplay = imgResult;

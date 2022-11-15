@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import glamorous from "glamorous";
 import glamor from "glamor";
 import MyButton from "../Button";
+import { useState } from "react";
 const DivCard = glamorous.div({
   " &::before": {
     backgroundColor: "red",
@@ -12,25 +13,27 @@ const DivCard = glamorous.div({
 });
 
 const CardProduct = ({ value = {} }) => {
-  console.log({ value });
-  const { maSanPham, tenSanPham, giaBanDisplay, boSuuTap, slug, img, color } =
-    value;
+  const { maSanPham, tenSanPham, giaBanDisplay, boSuuTap, slug, chiTietSoLuong ,color} =
+  value;
+  const [img,setImg]  = useState(color[0]||null);
+  console.log({img})
+  const handleHover=(index)=>
+{
+  setImg(color[index])
+}
   return (
-    <Link to={`/san-pham/${slug.trim()}/${maSanPham}`}>
       <DivCard
         className={"Card"}
         css={{
           " &::before": {
-            backgroundColor: "#" + color[0]?.idMaumau,
+            backgroundColor: "#" + img?.idMaumau||'fff',
           },
         }}
       >
         <div className="ImgBox">
           <img
             src={
-              `https://localhost:44328/wwwroot/res/SanPhamRes/Imgs/${maSanPham?.trim()}/${color[0]?.idMaumau?.trim()}/${
-                color[0]?.hinhAnhInfo[0]?.name
-              }` || null
+              img?.hinhAnhInfo[0]?.url||null 
             }
             alt=""
           />
@@ -44,15 +47,17 @@ const CardProduct = ({ value = {} }) => {
           </div>
           <div className="Color">
             <h3>Color: </h3>
-            {color?.map((cl) => (
-              <span>{cl.label}</span>
+            {color&&color?.map((cl,index) => (
+              <span onMouseEnter={()=>handleHover(index)} style={{backgroundColor:"#"+cl.idMaumau}}></span>
             ))}
           </div>
-          <div className="Price">199999VND</div>
-          
+          <div className="Price">{giaBanDisplay}</div>
+              <Link to={`/san-pham/${slug.trim()}/${maSanPham}`} className="btnOrder">
+                <button>Xem chi tiết</button>
+              </Link>
         </div>
       </DivCard>
-    </Link>
+
   );
 };
 

@@ -4,8 +4,9 @@
    position: relative;
    background-color: black;
    border-radius: .4rem;
-   width: 320px;
+   width: 100%;
    height: 450px;
+//    max-width: 350px;
    cursor: pointer;
     &::before{
         content: "";
@@ -22,15 +23,15 @@
     &:hover::before{
         clip-path: circle(300px at 80% -20%);
     }
-    ::after{
-        content:attr(data-content);
-        position: absolute;
-        top: 30%;
-        left: -20%;
-        font-size: 12em;
-        color:rgba(255,255,255,0.04);
-        font-weight: 800;
-    }
+    // ::after{
+    //     content:attr(data-content);
+    //     position: absolute;
+    //     top: 30%;
+    //     left: -20%;
+    //     font-size: 12em;
+    //     color:rgba(255,255,255,0.04);
+    //     font-weight: 800;
+    // }
     .ImgBox{
         position: absolute;
             top: 50%;
@@ -66,7 +67,7 @@
             color:#fff;
     
         }
-         .Color,.Size,.Price
+        .Color,.Size,.Price,.btnOrder
         {
             display: flex;
             justify-content: center;
@@ -101,20 +102,36 @@
            
         }
         }
+        .btnOrder{
+           button{
+            padding: 1rem;
+            cursor: pointer;
+            color:black;
+            background-color: white;
+            border:.1rem solid #ccc;
+            transition: .3s ease;
+            border-radius: .4rem;
+            &:hover{
+                background-color: rgb(247, 198, 198);
+                color: black;
+            }
+           }
+        }
+        .Color{
+            span{
+                border-radius: 50%;
+            }
+        }
+        .Price{
+            color:white;
+        }
       
         a{
             opacity: 1;
             transform: translateY(0px);
             transition-delay: .75s;
         }
-        .btn{
-            padding: 1rem;
-            background-color: white;
-            display: inline;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 999;
-        }
+       
     }
      &:hover {
         .ContentBx{
@@ -123,11 +140,10 @@
         }
      }
      &:hover{
-        .Color,.Size,.Price,.btn{
+        .Color,.Price,.btnOrder{
             opacity: 1;
             visibility: visible;
         }
-      
      }
      &:hover .ContentBx .Size{
         span:hover{
@@ -135,6 +151,6 @@
     }
      }
      &:hover .ContentBx .Color{
-            transition-delay: .6s;
+            // transition-delay: .3s;
      }
 }

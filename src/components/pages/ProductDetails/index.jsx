@@ -94,14 +94,12 @@ const TrangChiTietSanPham = () => {
                 modules={[Pagination]}
                 className="mySwiper"
               >
-                {product?.hinhAnh?.map((item) => {
+                {product.hinhAnhDisplay?.length>0&&product.hinhAnhDisplay[0].hinhAnhInfo.map((item) => {
                   return (
                     <SwiperSlide>
                       <Image
                       style={{objectFit:"contain"}}
-                        src={`${BASE_URL}wwwroot/res/SanPhamRes/Imgs/${product?.maSanPham.trim()}/${product?.colorSelected}/${
-                          item.value
-                        }`}
+                        src={item.url}
                         preview
                       />
                     </SwiperSlide>

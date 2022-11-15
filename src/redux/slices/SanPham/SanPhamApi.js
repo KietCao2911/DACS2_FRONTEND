@@ -95,3 +95,12 @@ export const Uploads = async (MaSP, MaMau, body, config) => {
     throw err;
   }
 };
+export const DeleteImg = async(fileName,_id,maSP,maMau)=>
+{
+  try {
+    const res = await Method.Delete(`/api/admin/SanPham/RemoveImg?fileName=${fileName}&_id=${_id}&maSP=${maSP}&maMau=${maMau}`);
+    return res;
+  } catch (error) {
+    throw error
+  }
+}
