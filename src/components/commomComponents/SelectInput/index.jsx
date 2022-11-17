@@ -6,7 +6,7 @@ export const SelectInput = (props) => {
   const {onChange,defaultLabel,options,children,name,loading=false}= props;
   return (
     <div className='SelectInput'>
-        <select name={name} onChange={onChange} >
+        <select name={name} onChange={onChange} {...props} >
           {children}
         </select>
         <div className="loading">

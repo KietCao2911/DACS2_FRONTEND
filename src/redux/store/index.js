@@ -9,6 +9,7 @@ import GhnSlice from "../slices/GHNAPI/GhnSlice";
 import ThanhToanSlice from "../slices/ThanhToanSlice";
 import HoaDonSlice from "../slices/HoaDon/HoaDonSlice";
 import MauSacSlice from "../slices/MauSacSlice";
+import ThongKeSlice from "../slices/ThongKe";
 export const store = configureStore({
   reducer: {
     DanhMuc: DanhMucSlice.reducer,
@@ -20,6 +21,7 @@ export const store = configureStore({
     GiaoHangNhanh : GhnSlice.reducer,
     ThanhToan :ThanhToanSlice.reducer,
     HoaDon:HoaDonSlice.reducer,
-    MauSac:MauSacSlice.reducer
+    MauSac:MauSacSlice.reducer,
+    ThongKe:ThongKeSlice.reducer
   },
 });

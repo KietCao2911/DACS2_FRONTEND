@@ -1,25 +1,57 @@
 .Card
 {
- 
+    
    position: relative;
    background-color: black;
-   border-radius: .4rem;
+   border-radius: .8rem;
    width: 100%;
    height: 450px;
-//    max-width: 350px;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+   transition: 1s ease;
    cursor: pointer;
-    &::before{
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: attr(data-color);
-        clip-path: circle(150px  at 80% 20%);
-        transition: .5s ease-in-out;
+    // &::before{
+    //     content: "";
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-color: attr(data-color);
+    //     clip-path: circle(150px  at 80% 20%);
+    //     transition: .5s ease-in-out;
+    //     border-top-right-radius: .8rem;
 
+    // }
+    .band
+    {
+       
+        position: absolute;
+        top: -1rem;
+        left: -1rem;
+        width: 15rem;
+        height: 15rem;
+        // background-color: #f00;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        &::before
+        {
+            content: attr(data);
+            position: absolute;
+            width: 200%;
+            height: 4rem;
+            background-color: #f00;
+            transform: rotate(-45deg) translateY(-2rem) ;
+            font-weight: 600;
+            color:white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: line-through;
+        }
     }
+    
     &:hover::before{
         clip-path: circle(300px at 80% -20%);
     }
@@ -107,10 +139,9 @@
             padding: 1rem;
             cursor: pointer;
             color:black;
-            background-color: white;
+            background-color:white;
             border:.1rem solid #ccc;
             transition: .3s ease;
-            border-radius: .4rem;
             &:hover{
                 background-color: rgb(247, 198, 198);
                 color: black;

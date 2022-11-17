@@ -66,7 +66,7 @@ const TrangSanPham = () => {
   //   );
   // }, [slug]);
   return (
-    <div className="TrangSanPham">
+    <div className="TrangSanPham PageContainer">
       {tableLoading && <CustomSpin />}
       <div className="Filter">
         <Filter />

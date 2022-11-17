@@ -96,6 +96,7 @@ const NoneUserInfo = (props) => {
         <div  style={{margin:"0 -1rem"}}>
         <InputText onChange={(e)=>handleChangeDsc(e)}  value={GuessInfo.AddressDsc} label="Chi tiết địa chỉ (Số nhà, tên đường,...)"></InputText>
         <InputText maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Phone")} number={true} value={GuessInfo.Phone}  label="Số điện thoại"></InputText>
+        <InputText maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Email")}  value={GuessInfo.Email}  label="Email"></InputText>
         </div>
         <div  className="InfoAddress" >
         <SelectInput  loading={Loading.Provinces} name="province" defaultLabel="Tỉnh/Thành phố" onChange={e=>getDistricts(e)}>

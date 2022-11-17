@@ -6,6 +6,7 @@ import glamorous from "glamorous";
 import glamor from "glamor";
 import MyButton from "../Button";
 import { useState } from "react";
+import convertVND from "~/components/utils/ConvertVND";
 const DivCard = glamorous.div({
   " &::before": {
     backgroundColor: "red",
@@ -13,10 +14,9 @@ const DivCard = glamorous.div({
 });
 
 const CardProduct = ({ value = {} }) => {
-  const { maSanPham, tenSanPham, giaBanDisplay, boSuuTap, slug, chiTietSoLuong ,color} =
+  const { maSanPham, tenSanPham, giaBan,giamGia, boSuuTap, slug, chiTietSoLuong ,color,giaDaGiam} =
   value;
   const [img,setImg]  = useState(color[0]||null);
-  console.log({img})
   const handleHover=(index)=>
 {
   setImg(color[index])
@@ -25,11 +25,13 @@ const CardProduct = ({ value = {} }) => {
       <DivCard
         className={"Card"}
         css={{
-          " &::before": {
-            backgroundColor: "#" + img?.idMaumau||'fff',
-          },
+          // " &::before": {
+          //   background: "#" + img?.idMaumau||'fff',
+          // },
+          background:`linear-gradient(90deg,${'#333'},${"#"+img?.idMaumau})`
         }}
       >
+        {giamGia>0&&<span className="band" data={convertVND(giaBan/((100-giamGia)/100))}></span>}
         <div className="ImgBox">
           <img
             src={
@@ -51,7 +53,7 @@ const CardProduct = ({ value = {} }) => {
               <span onMouseEnter={()=>handleHover(index)} style={{backgroundColor:"#"+cl.idMaumau}}></span>
             ))}
           </div>
-          <div className="Price">{giaBanDisplay}</div>
+          <div className="Price">{convertVND(giaBan)}  </div>
               <Link to={`/san-pham/${slug.trim()}/${maSanPham}`} className="btnOrder">
                 <button>Xem chi tiết</button>
               </Link>

@@ -9,19 +9,20 @@ import { SelectInput } from "~/components/commomComponents/SelectInput";
 import { useDispatch,useSelector } from "react-redux";
 import MauSacSlice,{fetchALLColors} from "~/redux/slices/MauSacSlice";
 import SanPhamSlice,{UploadFile,DeleteFile} from "~/redux/slices/SanPham";
+import { uuidv4 as v4 } from "@firebase/util";
 const {Dragger} =Upload
 function UploadMutipleFile(props) {
-  const { res, MaSP } = props;
-  const [openModal,setOpenModal] = useState(false);
+  const { res, MaSP,product,openModal,setOpenModal } = props;
+  // const [openModal,setOpenModal] = useState(false);
   const [progress, setProgress] = useState(0);
   const [colorSelected, setColorSelected] = useState(null);
   const [resTemp , setResTemp] = useState(res||[]);
   const dispatch = useDispatch();
   const {colors} = useSelector(state=>state.MauSac)
-  console.log({resTemp,res})
   const uploadImage = async (options) => {
     const { onSuccess, onError, file, onProgress } = options;
     const fmData = new FormData();
+    console.log({openModal})
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress: (event) => {
@@ -34,12 +35,11 @@ function UploadMutipleFile(props) {
       },
     };
     try {
-      if(colorSelected.length>0)
-      {
+      
         fmData.append("file", file);
-       dispatch(UploadFile({maSP:MaSP,maMau:colorSelected,body:fmData,config}))
-      }
-      onSuccess("Ok");
+        dispatch(UploadFile({maSP:MaSP,maMau:colorSelected,body:fmData,config}))
+        onSuccess("Ok");  
+
     } catch (err) {
       const error = new Error("Some error");
       onError({ err });
@@ -69,7 +69,6 @@ if(ele)
     {
       var index = res.indexOf(ele);
     var newArr = res[index]||[];
-console.log({newArr})
     setResTemp(newArr)
     }
     else{
@@ -86,9 +85,9 @@ console.log({newArr})
     <Button onClick={()=>setOpenModal(true)} >Upload</Button>
     <ModalCustom visiable={openModal} onCancel={()=>setOpenModal(false)}>
     <strong>Cập nhật ảnh sản phẩm</strong>
-      <SelectInput  onChange={(e)=>handleOnChangeColor(e)}>
-        <option  value={null}>Lựa chọn màu sắc</option>
-       {colors.map((item)=><option key={item.maMau} value={item.maMau}>{item.tenMau}</option>)}
+      <SelectInput value={colorSelected} onChange={(e)=>handleOnChangeColor(e)}>
+        <option key={v4()} value={null}>Lựa chọn màu sắc</option>
+       {product.chiTietSoLuong&&product.chiTietSoLuong.map((item)=><option  key={v4()}   value={item?.idmau.trim()}>{item.colorLabel}</option>)}
       </SelectInput>
       <Dragger onRemove={(e)=>handleDeleteImg(e)} listType="picture-card"  fileList={resTemp&&resTemp.hinhAnhInfo||[]} customRequest={uploadImage}>
       <p className="ant-upload-drag-icon">

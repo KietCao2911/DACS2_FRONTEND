@@ -8,6 +8,9 @@ import { useSelector,useDispatch } from "react-redux";
 import {fetchALLColors} from "~/redux/slices/MauSacSlice"
 import {fetchALLSize} from "~/redux/slices/KichCoSlice"
 import SanPhamSlice,* as SanPhamAPI from "~/redux/slices/SanPham";
+import { SelectInput } from "~/components/commomComponents/SelectInput";
+import { useLayoutEffect } from "react";
+import { uuidv4 as v4 } from "@firebase/util";
 const { Option } = Select;
 const {} = Input;
 
@@ -17,7 +20,7 @@ const Item = (props) => {
   const {useForm} = Form;
   const [form] = useForm()
   const dispatch = useDispatch();
-   const handleAdd=()=>
+  const handleAdd=()=>
    {
       const size = form.getFieldValue("size");
       const color= form.getFieldValue("color")
@@ -29,7 +32,7 @@ const Item = (props) => {
     dispatch(SanPhamAPI.fetchDeleteAddQty({id}));
    }
 return <div className="ItemQty" >
-    <Form  layout="inline" form={form} initialValues={{size:value?.idSize||null,color:colorID?.trim()||null,qty:value?.soLuong||0}} >
+    <Form  layout="inline" form={form} initialValues={{size:value?.idSize||null,color:colorID||null,qty:value?.soLuong||0}} >
       <Form.Item name="size" label={"Kích thước"}>
       <Select  >
     <Option value={null}>Vui lòng chọn kích thước</Option>
@@ -59,23 +62,40 @@ const QuanLySoLuong = ({ init = [], maSanPham }) => {
   const {sizes} = useSelector(state=>state.KichCo)
   const [openModalAdd,setOpenModalAdd] = useState(false);
   const dispatch = useDispatch();
-  console.log({init})
+  const [colorSelected,setColorSelected] = useState(null);
+  const [qtyDetails,setQtyDetails] = useState(init||[]);
   useEffect(()=>
   {
-    dispatch(fetchALLColors())
+    handleFilterQtysByColorId(colorSelected);
+  },[init,colorSelected])
+  useEffect(()=>
+  {
     dispatch(fetchALLSize())
   },[])
- 
+  const handleSetColorID =(idColor)=>
+  {
+    setColorSelected(idColor);
+  }
+  const handleFilterQtysByColorId=()=>
+  {
+    const qtyTemp = [...init];
+    const  newArr = qtyTemp.filter(x=>x.idmau.trim()==colorSelected);
+    setQtyDetails([...newArr])
+  }
   return (
     <>
     <Modal width={"100%"} zIndex={1000}  visible={openModalAdd}   onCancel={()=>setOpenModalAdd(false)}>
-      <Item options={{colors,sizes}} maSP={maSanPham}></Item>
+      <Item options={{colors,sizes}} maSP={maSanPham} colorID={colorSelected}></Item>
     </Modal >
       <Button type="primary"onClick={()=>setOpenModalAdd(true)} >
         Thêm
       </Button>
-      {init&&init.map(item=>
-        item.sizeDetails.map(size=><Item colorID={item.idmau} value={size} options={{colors,sizes}} maSP={maSanPham} _id={size._id}/>))}
+      <SelectInput onChange={(e)=>handleSetColorID(e.target.value.trim()  )}>
+        <option value={"null"}>Vui lòng chọn màu sắc</option>
+        {init&&init.map(item=> <option value={item.idmau}>{item.colorLabel}</option>)}
+      </SelectInput>
+      {qtyDetails&&qtyDetails.map(item=>
+        item.sizeDetails.map(size=><Item key={v4()} colorID={item.idmau.trim()} value={size} options={{colors,sizes}} maSP={maSanPham} _id={size._id}/>))}
     </>
   );
 };

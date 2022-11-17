@@ -12,6 +12,9 @@ import {
   Button,
   Breadcrumb,
   notification,
+  Comment,
+  Tooltip,
+  Avatar
 } from "antd";
 import { Pagination } from "swiper";
 import SizeSelect from "./components/SizeCompoent";
@@ -36,6 +39,10 @@ import ReactHtmlParser from "react-html-parser";
 import ColorComponent from "./components/ColorComponent";
 import { v4 as uuidv4 } from "uuid";
 const { Panel } = Collapse;
+const actions = [
+  <Tooltip><Rate value={5}/></Tooltip>
+
+];
 const TrangChiTietSanPham = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const dispatch = useDispatch();
@@ -114,6 +121,19 @@ const TrangChiTietSanPham = () => {
           <div className="PageContainer">
           <MyCollapse label="Mô tả" >
           {ReactHtmlParser(product?.mota)}
+          </MyCollapse>
+          <MyCollapse label="Đánh giá">
+            <Comment actions={actions} avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+      content={
+        <p>
+         Sản phẩm tuyệt vời
+        </p>
+      }
+      datetime={
+        <Tooltip title="2016-11-22 11:22:33">
+          <span>8 hours ago</span>
+        </Tooltip>
+      }/>
           </MyCollapse>
           </div>
          

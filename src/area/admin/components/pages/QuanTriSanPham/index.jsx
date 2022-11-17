@@ -94,6 +94,7 @@ const QuanTriSanPham = () => {
     current: page,
     pageSize: pageSize,
   });
+  console.log("QUANTRISANPHAM LOAD")
   const fetchData = async (params) => {
     const { page, pageSize, current } = params;
     try {

@@ -12,6 +12,7 @@ import * as Api from "~/redux/slices/SanPham";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import FormItem from "antd/lib/form/FormItem";
+import { v4 } from "uuid";
 const { Option } = Select;
 
 document.title = "Trang cập nhật thông tin sản phẩm";
@@ -29,6 +30,7 @@ const CapNhatSanPham = ({
   const [fileList, setFileList] = useState([]);
   const [mutipleFileInit, setMutipleFileInit] = useState([]);
   const [openModalQty, setOpenModalQty] = useState(false);
+  const [openModal,setOpenModal] = useState(false);
   let { maSP } = useParams();
   let [form] = useForm();
   const dispatch = useDispatch();
@@ -109,6 +111,7 @@ const CapNhatSanPham = ({
       }}
     >
       <Form
+      initialValues={{giaBan:0,giamGia:0}}
         form={form}
         name="FormChinhSuaSanPham"
         colon={false}
@@ -125,6 +128,7 @@ const CapNhatSanPham = ({
         <Form.Item
           label="Mã sản phẩm"
           name="maSanPham"
+          key={v4()}
           rules={[
             {
               required: true,
@@ -135,6 +139,7 @@ const CapNhatSanPham = ({
           <Input readOnly />
         </Form.Item>
         <Form.Item
+        key={v4()}
           label="Tên sản phẩm"
           name="tenSanPham"
           rules={[
@@ -147,6 +152,7 @@ const CapNhatSanPham = ({
           <Input />
         </Form.Item>
         <Form.Item
+        key={v4()}
           label="Giá bán"
           name="giaBan"
           rules={[
@@ -158,7 +164,11 @@ const CapNhatSanPham = ({
         >
           <InputNumber />
         </Form.Item>
+        <Form.Item name="giamGia" label={"Giảm giá (%)"}>
+           <InputNumber min={0} max={100}/>
+        </Form.Item>
         <Form.Item
+        key={v4()}
           label="Số lượng nhập"
           rules={[
             {
@@ -172,6 +182,7 @@ const CapNhatSanPham = ({
           </Button>
         </Form.Item>
         <Form.Item
+        key={v4()}
           label="Tên bộ sưu tập"
           name="IdBst"
           rules={[
@@ -184,20 +195,20 @@ const CapNhatSanPham = ({
           <Select placeholder="Chọn bộ sưu tập">
             {bst.map((item, index) => {
               return (
-                <Option key={index} value={item.id}>
+                <Option key={v4()} value={item.id}>
                   {item.tenBoSuuTap}
                 </Option>
               );
             })}
           </Select>
         </Form.Item>
-        <Form.Item label="Tên danh mục" name="IdDM">
-          <CapNhatDanhMuc defaultValue={product.danhMuc} />
+        <Form.Item label="Tên danh mục" name="IdDM" key={v4()}>
+          <CapNhatDanhMuc  maSP={maSP}defaultValue={product.danhMuc} />
+        </Form.Item  >
+        <Form.Item label="Ảnh sản phẩm" key={v4()}>
+          <UploadMutipleFile openModal={openModal}setOpenModal={setOpenModal} res={product.color} MaSP={maSP} product={product}/>
         </Form.Item>
-        <Form.Item label="Ảnh sản phẩm">
-          <UploadMutipleFile res={product.color} MaSP={maSP} />
-        </Form.Item>
-        <FormItem name={"Mota"} hidden></FormItem>
+        <FormItem name={"Mota"} hidden key={v4()}></FormItem>
         <CKEditor
           editor={ClassicEditor}
           data={product.mota || ""}

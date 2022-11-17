@@ -1,16 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import * as DanhMucApi from "~/redux/slices/DanhMuc/DanhMucApi";
+import SanPhamSlice,*as SanPhamAPI from "~/redux/slices/SanPham";
 import * as DanhMucApiThunk from "~/redux/slices/DanhMuc/index";
 import { Button, Form, Input, Select, Modal } from "antd";
 import MyButton from "~/components/commomComponents/Button";
+import { NIL, v4 } from "uuid";
+import { useDispatch } from "react-redux";
 const { Option } = Select;
-const CapNhatDanhMuc = ({ defaultValue }) => {
+const CapNhatDanhMuc = ({ defaultValue,maSP }) => {
   const [openModal, setOpenModal] = useState(false);
   const [catName, setCatName] = useState("");
   const [ID,setID] = useState({ID:null,
   parentID:null})
-
+    const dispatch = useDispatch();
   const [form] = Form.useForm();
   console.log({ defaultValue });
   const [Muc0, setMuc0] = useState({
@@ -114,7 +117,17 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
   }, [defaultValue]);
   const handleSubmit=()=>
   {
-    
+    if(Muc2.parentId!=null)
+    {
+      dispatch(SanPhamAPI.UpdateCategory({maSP,body:{ParentCategoryID:Muc2.parentId,Id:Muc2.Id}}))
+    }
+    else if(Muc1.parentId!=null)
+    {
+      dispatch(SanPhamAPI.UpdateCategory({maSP,body:{ParentCategoryID:Muc1.parentId,Id:Muc1.Id}}))
+    }else
+  {
+    dispatch(SanPhamAPI.UpdateCategory({maSP,body:{ParentCategoryID:Muc0.parentId,Id:Muc0.Id}}))
+  }
   }
   return (
     <>
@@ -135,14 +148,14 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
             <Select onChange={Muc0Change}>
               <Option value={null}>--Đây là danh mục gốc--</Option>
               {Muc0.items?.map((item) => (
-                <Option value={item.id}>--{item.tenDanhMuc}--</Option>
+                <Option key={v4()} value={item.id}>--{item.tenDanhMuc}--</Option>
               ))}
             </Select>
           </Form.Item>
           {Muc0.Id != null && (
             <Form.Item label="Mức 1" name={"Muc1"}>
               <Select onChange={Muc1Change}>
-                <Option value={null}>--Đây là danh mục gốc--</Option>
+                <Option key={v4()} value={null}>--Đây là danh mục gốc--</Option>
                 {Muc1.items?.map((item) => (
                   <Option value={item.id}>--{item.tenDanhMuc}--</Option>
                 ))}
@@ -152,14 +165,14 @@ const CapNhatDanhMuc = ({ defaultValue }) => {
           {Muc1.Id != null && (
             <Form.Item label="Mức 2" name={"Muc2"}>
               <Select onChange={Muc2Change}>
-                <Option value={null}>--Đây là danh mục gốc--</Option>
+                <Option key={v4()} value={null}>--Đây là danh mục gốc--</Option>
                 {Muc2.items?.map((item) => (
                   <Option value={item.id}>--{item.tenDanhMuc}--</Option>
                 ))}
               </Select>
             </Form.Item>
           )}
-          <MyButton onClick={() => console.log({ Muc0,Muc1,Muc2 })}>
+          <MyButton onClick={handleSubmit}>
             GỬI
           </MyButton>
           <MyButton

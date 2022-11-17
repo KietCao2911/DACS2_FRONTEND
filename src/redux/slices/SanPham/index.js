@@ -96,6 +96,11 @@ export const DeleteFile = createAsyncThunk("DeleteFile",async(params)=>
   const res= await Api.DeleteImg(fileName,_id,maSP,maMau);
   return res;
 })
+export const UpdateCategory = createAsyncThunk("UpdateCategory",async(params)=>
+{
+  const {maSP,body} = params;
+  const res = await Api.PutCategoryProduct(maSP,body)
+})
 const SanPhamSlice = createSlice({
   initialState,
   name: "SanPham",
@@ -127,6 +132,11 @@ const SanPhamSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //UpdateCategory
+    builder.addCase(UpdateCategory.fulfilled,(state,action)=>
+    {
+      alert("!");
+    })
     //DeleteFile
     builder.addCase(DeleteFile.fulfilled,(state,action)=>
     {
@@ -169,29 +179,32 @@ const SanPhamSlice = createSlice({
     //fetchDeleteAddQty
     builder.addCase(fetchDeleteAddQty.fulfilled,(state,action)=>
     {
-      let ctsl =[...current(state.product.chiTietSoLuong)];
       let obj = state.product.chiTietSoLuong.find(x=>x.idmau.trim()==action.payload.maMau.trim());
       let indexObj = state.product.chiTietSoLuong.indexOf(obj);
       let qtyDetailObj = obj.sizeDetails.find(x=>x._id==action.meta.arg.id);
       let indexDetail = state.product.chiTietSoLuong[indexObj].sizeDetails.indexOf(qtyDetailObj);
       let myArrSizeDetails = [...obj.sizeDetails];
       myArrSizeDetails.splice(indexDetail,1);
+      
       if(indexDetail>-1&&indexObj>-1)
       {
+        console.log({myArrSizeDetails})  
         state.product.chiTietSoLuong[indexObj].sizeDetails = [...myArrSizeDetails];
-        state.product.chiTietSoLuong = [...state.product.chiTietSoLuong];
+        // state.product.chiTietSoLuong = [...state.product.chiTietSoLuong];
       }
     })
     //fetchPostUpdateQty
     builder.addCase(fetchPostAddQty.fulfilled,(state,action)=>
     {
       alert("Success");
+      console.log({payload:action.payload})
       if(action.payload.action=="Add")
       {
       const ctsl =[...current(state.product.chiTietSoLuong)];
-        if(ctsl.length>0)
+      console.log({ctsl})
+        if(ctsl.length>1 )
         {
-          console.log({ctsl})
+          console.log("Length>0 ")
           var obj = ctsl.find(x=>x.idmau.trim()==action.payload.maMau.trim());
           console.log({obj});
           var index = ctsl.indexOf(obj);
@@ -202,7 +215,8 @@ const SanPhamSlice = createSlice({
         }
         else
         {
-          state.product.chiTietSoLuong.push({idmau:action.payload.maMau.trim(),sizeDetails:[{...action.payload}]})
+          console.log("Length< 0 ")
+          state.product.chiTietSoLuong.push({idmau:action.payload.maMau.trim(),sizeDetails:[{...action.payload}],colorLabel:action.payload.colorLabel})
         }
       }
      

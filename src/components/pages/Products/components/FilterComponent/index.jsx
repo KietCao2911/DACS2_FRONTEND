@@ -11,6 +11,7 @@ import * as request from "~/axiosRequest/request";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SanPhamSlice, * as Api from "~/redux/slices/SanPham";
+import MyButton from "~/components/commomComponents/Button";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -32,6 +33,7 @@ const items = [
     ),
     getItem(<Link to={"?sort=date-newest"}> Mới nhất </Link>, uuidv4()),
     getItem(<Link to={"?sort=date-oldest"}> Cũ nhất </Link>, uuidv4()),
+    getItem(<Link to={"?sale=true"}> Đang giảm giá </Link>, uuidv4()),
   ]),
   getItem("Kích cỡ", uuidv4(), null, [
     getItem(<SizeOptions />, uuidv4(), null, null),
@@ -50,6 +52,7 @@ const Filter = () => {
     const sort = searchParams.get("sort") || null;
     const size = searchParams.get("size") || null;
     const color = searchParams.get("color") || null;
+    const sale = searchParams.get("sale") || null;
     dispatch(
       Api.fetchGetAllProducts({
         id: slug,
@@ -57,18 +60,18 @@ const Filter = () => {
           sort,
           size,
           color,
+          sale,
         },
       })
     );
   }, [searchParams,slug]);
   const handleAddSearchParams = () => {
-    // setSearchParams({ sort, Test: "CaoKiet" });
   };
   return (
     <div className="Filter">
-      <button className="BtnFilter" onClick={() => setOpenDrawer(true)}>
+      <MyButton style={{border:"unset",borderRadius:"unset",maxWidth:"25rem"}}onClick={() => setOpenDrawer(true)}>
         Lọc & Sắp xếp <FilterOutlined />
-      </button>
+      </MyButton>
       <Drawer
         placement="left"
         visible={openDrawer}

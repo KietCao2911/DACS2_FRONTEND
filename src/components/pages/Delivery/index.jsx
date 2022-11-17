@@ -27,6 +27,7 @@ const DeliveryPage = () => {
     DistrictID:null,
     WardId:null,
     AddressDsc:"",
+    Email:""
 })
   const handleOrder=()=>
   {
@@ -47,7 +48,6 @@ const DeliveryPage = () => {
         </div>
         <div className="InfoOrder">
           <div className="Login">
-      {!user&&<LoginComponent></LoginComponent>}
           {/* <LoginComponent></LoginComponent> */}
           </div>
           <div className="OrderDsc">
