@@ -22,7 +22,7 @@ const OrderDsc = (props) => {
     <h1>TÓM TẮT ĐƠN HÀNG</h1>
      <div className="QtyTotal">
          <p>{totalQty} Sản phẩm</p>
-     <div className="price">{convertVND(totalPrice)||convertVND("500000")}
+     <div className="price">{convertVND(totalPrice)||convertVND(0)}
      </div>
   
      </div>
@@ -36,7 +36,7 @@ const OrderDsc = (props) => {
      </div>
     </div>
     {!disableBtnPayment&&  <Link to="/giao-hang">  <MyButton Icon={<CreditCardOutlined />} style={{borderRadius:"unset"}}>THANH TOÁN</MyButton></Link> }
-  
+    
    
  </div>
   )

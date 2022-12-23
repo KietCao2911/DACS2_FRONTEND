@@ -34,8 +34,16 @@ function ActionSideBar() {
       ),
     ]),
     getItem( <Link to={"/admin/trang-quan-tri-don-hang"}>Đơn hàng</Link>,
+   "4"),
+   getItem( <Link to={"/admin/trang-quan-tri-nhap-hang"}>Nhập hàng</Link>,
    "5"),
-    getItem("Option 6", "6"),
+   getItem( <Link to={"/admin/trang-quan-tri-khach-hang"}>Khách hàng</Link>,
+   "6"),
+    getItem("Báo cáo và thống kê","sub2", [getItem( <Link to={"/admin/thong-ke-doanh-thu/thoi-gian/tong-quan"}> Thống kê doanh thu</Link>),
+    getItem( <Link to={"/admin/thong-ke-hoa-don/"}> Thống kê hóa đơn</Link>),
+    getItem( <Link to={"/admin/thong-ke-mua-hang"}> Thống kê mua hàng</Link>),
+    getItem( <Link to={"/admin/trang-bao-cao-nhap-xuat"}> Báo cáo xuất nhập tồn</Link>)
+    ]),
   ];
   return (
     <Menu

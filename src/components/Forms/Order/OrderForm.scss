@@ -1,0 +1,30 @@
+.OrderForm
+{
+    .PaymentMethod
+    {
+       display: flex;
+       flex-direction: column;
+      .PaymentMethodRadio
+      {
+        margin: .5rem;
+       label{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        max-width: 30rem;
+        padding: 1.4rem 4rem;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;    
+
+       }
+                input[type="radio"]
+                {
+                    display: none;
+                }
+        input[type="radio"]:checked +label
+        {
+           background-color: black;
+           color: white;
+        }
+      }
+    }
+}

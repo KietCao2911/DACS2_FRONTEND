@@ -1,0 +1,26 @@
+.ProductDetailItem
+{
+    padding: 1rem;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    position: relative;
+    display: inline-block;
+    margin:4rem 0 ;
+    .IconClose
+    {
+        position: absolute;
+        right: -.5rem;
+        top: -.5rem;
+        cursor: pointer;
+    }
+    .label
+    {
+        padding: .5rem;
+        position: absolute;
+        bottom: calc(100%  - 2rem);
+        transform: translateX(-50%);
+        left: 50%;
+        border:.1rem solid black;
+        background-color: black;
+        color: white;
+    }
+}

@@ -31,7 +31,7 @@ const CapNhatSanPham = ({
   const [mutipleFileInit, setMutipleFileInit] = useState([]);
   const [openModalQty, setOpenModalQty] = useState(false);
   const [openModal,setOpenModal] = useState(false);
-  let { maSP } = useParams();
+  let { slug } = useParams();
   let [form] = useForm();
   const dispatch = useDispatch();
   const { products, product, loading, totalRow } = useSelector(
@@ -40,7 +40,7 @@ const CapNhatSanPham = ({
   const { btnLoading } = loading;
   useEffect(() => {
     const Fetch = async () => {
-      const res = await dispatch(Api.fetchGetProduct({ id: maSP }));
+      const res = await dispatch(Api.fetchGetProduct({slug }));
       const data = res.payload;
       form.setFieldsValue({
         IdBst: data.boSuuTap?.key,
@@ -69,7 +69,7 @@ const CapNhatSanPham = ({
             // custom error message to show
             url:
               "https://localhost:44328/wwwroot/res/SanPhamRes/Imgs/" +
-              maSP +
+              product.maSanPham +
               "/" +
               item.value,
           });
@@ -94,7 +94,7 @@ const CapNhatSanPham = ({
     getDM();
   }, []);
   const handleSubmit = async (values) => {
-    dispatch(Api.fetchPutProduct({ id: maSP, body: values }));
+    dispatch(Api.fetchPutProduct({ id:  product.maSanPham, body: values }));
   };
   const handleDscChange = (text) => {
     form.setFieldsValue({
@@ -111,7 +111,7 @@ const CapNhatSanPham = ({
       }}
     >
       <Form
-      initialValues={{giaBan:0,giamGia:0}}
+      initialValues={{giaBan:0,giamGia:0} }
         form={form}
         name="FormChinhSuaSanPham"
         colon={false}
@@ -164,7 +164,7 @@ const CapNhatSanPham = ({
         >
           <InputNumber />
         </Form.Item>
-        <Form.Item name="giamGia" label={"Giảm giá (%)"}>
+        <Form.Item  key={v4()}  name="giamGia" label={"Giảm giá (%)"}>
            <InputNumber min={0} max={100}/>
         </Form.Item>
         <Form.Item
@@ -203,11 +203,11 @@ const CapNhatSanPham = ({
           </Select>
         </Form.Item>
         <Form.Item label="Tên danh mục" name="IdDM" key={v4()}>
-          <CapNhatDanhMuc  maSP={maSP}defaultValue={product.danhMuc} />
+          <CapNhatDanhMuc  maSP={ product.maSanPham}defaultValue={product.danhMuc} />
         </Form.Item  >
         <Form.Item label="Ảnh sản phẩm" key={v4()}>
-          <UploadMutipleFile openModal={openModal}setOpenModal={setOpenModal} res={product.color} MaSP={maSP} product={product}/>
-        </Form.Item>
+          <UploadMutipleFile openModal={openModal}setOpenModal={setOpenModal} res={product.color} MaSP={ product.maSanPham} product={product}/>
+0        </Form.Item>
         <FormItem name={"Mota"} hidden key={v4()}></FormItem>
         <CKEditor
           editor={ClassicEditor}
@@ -238,7 +238,7 @@ const CapNhatSanPham = ({
         onCancel={() => setOpenModalQty(false)}
         onOk={() => setOpenModalQty(false)}
       >
-        <QuanLySoLuong init={product.chiTietSoLuong} maSanPham={maSP} />
+        <QuanLySoLuong init={product.chiTietSoLuong} maSanPham={ product.maSanPham} />
       </Modal>
     </div>
   );

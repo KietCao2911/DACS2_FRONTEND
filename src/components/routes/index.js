@@ -10,7 +10,7 @@ const publicRoute = [
     element: Elements.TrangSanPham,
   },
   {
-    path: "/san-pham/:slug/:id",
+    path: "/san-pham/:slug",
     element: Elements.TrangChiTietSanPham,
   },
   {

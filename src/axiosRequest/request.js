@@ -5,7 +5,6 @@ const request = axios.create({
 });
 request.interceptors.request.use(async (config) => {
   const accessToken = localStorage.getItem("access__token");
-  // console.log(accessToken);
   if (accessToken) {
     config.headers.authorization = `Bearer ${accessToken}`;
   }
@@ -20,7 +19,6 @@ request.interceptors.response.use(
     if (error.response.status === 401) {
       const refresh__token = localStorage.getItem("refresh__token");
       if (refresh__token) {
-        alert("TIEN HANH THAY TOKEN");
         localStorage.setItem("access__token", refresh__token);
         localStorage.removeItem("refresh__token");
         const config = error.response.config;
@@ -56,8 +54,8 @@ export const Post = async (path, body, config) => {
   return response.data;
 };
 
-export const Put = async (path, body, config) => {
-  const response = await request.put(path, body, config);
+export const Put = async (path, data, config) => {
+  const response = await request.put(path,data,config);
   return response.data;
 };
 

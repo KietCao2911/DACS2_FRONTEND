@@ -6,13 +6,11 @@ import { useEffect, useState } from "react";
 import CardProduct from "~/components/commomComponents/CardProduct";
 import { useDispatch, useSelector } from "react-redux";
 import * as Api from "~/redux/slices/SanPham";
+import { Skeleton } from "antd";
+import { v4 } from "uuid";
 const NewRelease = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.SanPham);
-  console.log({ products });
-  useEffect(() => {
-    dispatch(Api.fetchGetLatestProducts());
-  }, []);
+  const { productsLatest } = useSelector((state) => state.SanPham);
   return (
     <div>
       <Swiper
@@ -26,7 +24,7 @@ const NewRelease = () => {
           },
           1600: {
             width: 1600,
-            slidesPerView: 4,
+            slidesPerView: 3,
           },
         }}
         style={{ padding: "1rem" }}
@@ -37,13 +35,14 @@ const NewRelease = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {products?.map((item) => {
+        {productsLatest.length>0?productsLatest?.map((item) => {
           return (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={v4()}>
               <CardProduct value={item}></CardProduct>
             </SwiperSlide>
           );
-        })}
+        }):<Skeleton active={true}></Skeleton>}
+        
       </Swiper>
     </div>
   );

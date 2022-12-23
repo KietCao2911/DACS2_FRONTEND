@@ -1,7 +1,7 @@
 import React from "react";
 import "./ColorChecked.scss";
 import { Col, Row } from "antd";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, v4 } from "uuid";
 import { getImgs } from "~/redux/slices/SanPham";
 import { useDispatch, useSelector } from "react-redux";
 const Item = ({ value, checked = false, onChange }) => {
@@ -23,7 +23,7 @@ const Item = ({ value, checked = false, onChange }) => {
     </>
   );
 };
-const ColorComponent = ({ items, setSize }) => {
+const ColorComponent = ({ items }) => {
   const dispatch = useDispatch();
   return (
     <>
@@ -34,9 +34,9 @@ const ColorComponent = ({ items, setSize }) => {
                 console.log({ item });
               }
               return (
-              <Col  span={3}>  <Item
-              value={item.idmau.trim()}
-              onChange={(e) => dispatch(getImgs(item.idmau))}
+              <Col key={v4()}  span={3}>  <Item
+              value={item.idMaumau.trim()}
+              onChange={(e) => dispatch(getImgs(item.idMaumau.trim()))}
             /></Col>
               );
             })}

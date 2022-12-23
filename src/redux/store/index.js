@@ -10,6 +10,10 @@ import ThanhToanSlice from "../slices/ThanhToanSlice";
 import HoaDonSlice from "../slices/HoaDon/HoaDonSlice";
 import MauSacSlice from "../slices/MauSacSlice";
 import ThongKeSlice from "../slices/ThongKe";
+import PhieuNhapSlice from "../slices/PhieuNhap/PhieuNhap";
+import KhachHangSlice from "../slices/KhachHang/KhachHangSlice";
+import MeSlice from "../slices/MeSlice/MeSlice";
+import MessageSlice from "../slices/Messages/MessagesSlice";
 export const store = configureStore({
   reducer: {
     DanhMuc: DanhMucSlice.reducer,
@@ -22,6 +26,10 @@ export const store = configureStore({
     ThanhToan :ThanhToanSlice.reducer,
     HoaDon:HoaDonSlice.reducer,
     MauSac:MauSacSlice.reducer,
-    ThongKe:ThongKeSlice.reducer
+    ThongKe:ThongKeSlice.reducer,
+    PhieuNhap:PhieuNhapSlice.reducer,
+    KhachHang:KhachHangSlice.reducer,
+    Me:MeSlice.reducer,
+    Message:MessageSlice.reducer
   },
 });

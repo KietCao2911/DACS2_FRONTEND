@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { Outlet,Link,Routes,Route,useParams } from 'react-router-dom'
 import MyButton from '~/components/commomComponents/Button'
 import "./AccountPage.scss"
-import {RightOutlined} from "@ant-design/icons"
+import {LogoutOutlined, RightOutlined} from "@ant-design/icons"
 import InfoPage from './pages/InfoPage/InfoPage'
 import HaveUserAddressComponent from '~/components/commomComponents/HaveUserAddressComponent'
 export const Page1 = () => {
@@ -19,12 +19,14 @@ const AccountPage = () => {
   },{
     href:"dia-chi",
     label:"Sổ địa chỉ",
-  },{
-    href:"dang-xuat",
-    label:"Đăng xuất",
   }]
   const params = useParams();
   const key = params['*']
+  const handleLogout =()=>
+  {
+    localStorage.removeItem("access__token")
+    window.location.replace("/")
+  }
   return (
     <div className='AccountPage'>
       <div className="AccountNav">
@@ -33,6 +35,7 @@ const AccountPage = () => {
           return  <Link   to={item.href}><MyButton className={`MyButton ${key==item.href?"active":""}`} Icon={<RightOutlined/>}>{item.label}</MyButton></Link>
 
         })}
+       <MyButton className={`MyButton `} Icon={<LogoutOutlined/>} onClick={handleLogout}>Đăng xuất</MyButton>
       </div>
       <div className="ContentAccountPage">
         <Outlet/>

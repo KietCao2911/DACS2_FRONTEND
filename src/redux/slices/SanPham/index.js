@@ -5,9 +5,13 @@ const initialState = {
   products: [],
   product: {
   },
+  searchResult:[],
+  productsHot:[],
+  productsLatest:[],
   loading: {
     btnLoading: false,
     tableLoading: false,
+    searchLoading:false,
   },
   totalRow: 0,
 };
@@ -16,15 +20,15 @@ export const fetchGetAllProducts = createAsyncThunk(
   "fetchGetAllProducts",
   async (props) => {
     const {id,params} = props;
-    const res = await Api.GetAllProducts(id,{params});
+    const res = await Api.GetAllProducts(id,params);
     return res;
   }
 );
 export const fetchGetProduct = createAsyncThunk(
   "fetchGetProduct",
   async (params) => {
-    const { id } = params;
-    const res = await Api.GetProductById(id);
+    const { slug} = params;
+    const res = await Api.GetProductById(slug);
     return res;
   }
 );
@@ -100,6 +104,18 @@ export const UpdateCategory = createAsyncThunk("UpdateCategory",async(params)=>
 {
   const {maSP,body} = params;
   const res = await Api.PutCategoryProduct(maSP,body)
+  return res;
+})
+export const GetHotProducts = createAsyncThunk("GetHotProducts",async()=>
+{
+  const res= await Api.HotProducts();
+  return res;
+})
+export const SearchProducts =createAsyncThunk("SearchProducts",async(params)=>
+{
+  const {s} = params;
+  const res= await Api.SearchProducts(s);
+  return res;
 })
 const SanPhamSlice = createSlice({
   initialState,
@@ -113,25 +129,44 @@ const SanPhamSlice = createSlice({
       console.log({colors})
       let imgs = colors.filter((item) => item.idMaumau.trim() == colorId);
       let sizes = sizess.filter((item) => item.idmau.trim() == colorId);
+      console.log({sizes})
       let sizeResult = sizes || [];
       let imgResult = imgs || [];
-
+      console.log({imgResult});
       state.product.hinhAnhDisplay = imgResult;
       state.product.sizeDisplay = sizeResult;
       state.product.colorSelected = colorId;
       state.product.sizeSelected = null;
+      state.product.img = imgResult[0].hinhAnhInfo[0].url
     },
     sizeSelected: (state, action) => {
       const sizeSelected = action.payload.size;
       const colorSelected = action.payload.color;
+      const QTY = action.payload.Qty;
       console.log({sizeSelected})
       let ctsl =current(state.product.chiTietSoLuong);
       let colors = ctsl.find(x=>x.idmau.trim() == colorSelected)
       let size = colors.sizeDetails.find(x=>x.idSize == sizeSelected)
       state.product.sizeSelected = size;
+      state.product.QtyRemain = QTY||0;
     },
   },
   extraReducers: (builder) => {
+    //SearchProducts
+    builder.addCase(SearchProducts.pending,(state,action)=>
+    {
+      state.loading.searchLoading =true;
+    })
+    builder.addCase(SearchProducts.fulfilled,(state,action)=>
+    {
+      state.loading.searchLoading =false;
+      state.searchResult = action.payload.products;
+
+    })
+    //GetHotProducts
+    builder.addCase(GetHotProducts.fulfilled,(state,action)=>{
+      state.productsHot=action.payload;
+    })
     //UpdateCategory
     builder.addCase(UpdateCategory.fulfilled,(state,action)=>
     {
@@ -164,15 +199,12 @@ const SanPhamSlice = createSlice({
       const index = colors.indexOf(obj)
       if(obj && index>-1)
       {
-        console.log("haveobj")
-        console.log({obj,index})
+
         state.product.color[index].hinhAnhInfo.push(action.payload);
       }
       else
       {
-        console.log("No")
         const data ={idMaumau:maMau,hinhAnhInfo:[{...action.payload}]};
-        console.log({data})
         state.product.color.push({idMaumau:maMau,hinhAnhInfo:[{...action.payload}]})
       }
     })
@@ -196,15 +228,19 @@ const SanPhamSlice = createSlice({
     //fetchPostUpdateQty
     builder.addCase(fetchPostAddQty.fulfilled,(state,action)=>
     {
-      alert("Success");
-      console.log({payload:action.payload})
+      
       if(action.payload.action=="Add")
       {
       const ctsl =[...current(state.product.chiTietSoLuong)];
+      notification.open({
+        type:"success",
+        message:"Thêm thành công"
+
+      })
       console.log({ctsl})
         if(ctsl.length>1 )
         {
-          console.log("Length>0 ")
+         
           var obj = ctsl.find(x=>x.idmau.trim()==action.payload.maMau.trim());
           console.log({obj});
           var index = ctsl.indexOf(obj);
@@ -219,6 +255,14 @@ const SanPhamSlice = createSlice({
           state.product.chiTietSoLuong.push({idmau:action.payload.maMau.trim(),sizeDetails:[{...action.payload}],colorLabel:action.payload.colorLabel})
         }
       }
+      else
+      {
+        notification.open({
+          type:"success",
+          message:"Cập nhật thành công"
+  
+        })
+      }
      
     })
     builder.addCase(fetchPostAddQty.rejected,(state,action)=>
@@ -232,7 +276,7 @@ const SanPhamSlice = createSlice({
     });
     builder.addCase(fetchGetLatestProducts.fulfilled, (state, action) => {
       state.loading.tableLoading = false;
-      state.products = action.payload;
+      state.productsLatest = action.payload;
     });
     //fetchGetAllProducts
     builder.addCase(fetchGetAllProducts.pending, (state) => {
@@ -244,6 +288,12 @@ const SanPhamSlice = createSlice({
       state.products = products;
       state.totalRow = totalRow;
     });
+    builder.addCase(fetchGetAllProducts.rejected,(state)=>
+    {
+      state.loading.tableLoading =false;
+      state.products= [];
+      state.totalRow = 0;
+    })
     //fetchGetAllProductsUser
     builder.addCase(fetchGetAllProductsUser.pending, (state) => {
       state.loading.tableLoading = true;
@@ -260,7 +310,7 @@ const SanPhamSlice = createSlice({
       state.product = action.payload;
 
       state.product.colorSelected =
-        state.product?.chiTietSoLuong[0]?.idmau.trim() || null;
+        state.product?.color[0]?.idMaumau.trim() || null;
       const colorId = state.product.colorSelected;
       let colors = state.product?.color||[];
       let sizess = state.product?.chiTietSoLuong||[];
@@ -270,6 +320,7 @@ const SanPhamSlice = createSlice({
       console.log({imgs})
       let sizeResult = sizes || [];
       let imgResult = imgs || [];
+      state.product.img = imgResult[0].hinhAnhInfo[0].url
       state.product.hinhAnhDisplay = imgResult;
       state.product.sizeDisplay = sizeResult;
     });

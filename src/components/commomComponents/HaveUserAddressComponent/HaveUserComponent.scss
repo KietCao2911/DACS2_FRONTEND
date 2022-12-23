@@ -5,6 +5,26 @@
         border:.1rem solid black;
         position: relative;
         min-height: 30rem;
+        cursor: pointer;
+        position: relative;
+        &:hover{
+            box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        }
+        &.active{
+            border: .4rem solid black;
+            &::after{
+                position: absolute;
+                content:'\2714';
+                background-color: black;
+                top: -1rem;
+                right: -1rem;
+                color:white;
+                font-size: 2rem;
+                padding: .5rem;
+                border-radius: 50%;
+            }
+           
+        }
         .name{
             font-weight: 700;
         }
@@ -14,14 +34,19 @@
             top: -1.5rem;
         }
         .action{
-            a{
-                font-weight: 500;
+            display: flex;
+            position: absolute;
+            bottom: 3rem;
+            p{
                 text-decoration: underline;
+                margin:0 1rem;
+                padding: .5rem;
+                &:hover{
+                    
+                    background-color: black;
+                    color:white;
+                }
             }
-            :nth-child(2)  {
-                margin: 0 1rem;
-            }
-            
         }
     }
     .AddItem{

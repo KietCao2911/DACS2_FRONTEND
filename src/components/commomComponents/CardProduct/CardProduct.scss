@@ -2,12 +2,14 @@
 {
     
    position: relative;
-   background-color: black;
-   border-radius: .8rem;
+   background-color: #F6F6F6;
+   border-radius: .2rem;
    width: 100%;
-   height: 450px;
+   height: 400px;
    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-   transition: 1s ease;
+   transition: .3s ease;
+   color: black;
+   font-weight: 500;
    cursor: pointer;
     // &::before{
     //     content: "";
@@ -69,10 +71,10 @@
             top: 50%;
             transform: translateY(-50%);
             width: 100%;
-            height: 220px;
+            height: 250px;
             transition: .5s;
     }
-    &:hover > .ImgBox{
+    &:hover  .ImgBox{
         top: 0%;
         transform: translateY(0%);
     }
@@ -90,14 +92,22 @@
         width: 100%;
         height: 100px;
         text-align: center;
-        transition: 1s;
+        transition: .3s;
         z-index: 10;
+        color:black;
         h3{
             position: relative;
             letter-spacing: 1px;
             font-weight: 600;
-            color:#fff;
+            color:white;
     
+        }
+        .Color{
+            
+            span{
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                padding: .4rem;
+            }
         }
         .Color,.Size,.Price,.btnOrder
         {
@@ -105,13 +115,14 @@
             justify-content: center;
             align-items: center;
             padding: .8rem 2rem;
+            
             transition: .5s;
             opacity: 0;
             visibility: hidden;
         
         h3
         {
-            color:#fff;
+            
             font-weight: 300;
             font-size: 1.4rem;
             text-transform: uppercase;
@@ -138,15 +149,10 @@
            button{
             padding: 1rem;
             cursor: pointer;
-            color:black;
-            background-color:white;
-            border:.1rem solid #ccc;
+            border: unset;
             transition: .3s ease;
-            &:hover{
-                background-color: rgb(247, 198, 198);
-                color: black;
-            }
-           }
+            max-width: 20rem;
+        }
         }
         .Color{
             span{
@@ -154,7 +160,7 @@
             }
         }
         .Price{
-            color:white;
+            font-weight: 700;
         }
       
         a{
@@ -166,8 +172,8 @@
     }
      &:hover {
         .ContentBx{
-            height: 210px;
-    
+            height: 12rem;
+            background-color: rgba(255, 255, 255, 0.5);;
         }
      }
      &:hover{

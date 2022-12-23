@@ -2,8 +2,7 @@
     position: relative;
     width: 100%;
     display: flex;
-    margin: 2rem 0;
-    padding: 0 1rem;
+
     flex-direction: column;
     .IconClose{
         position: absolute;
@@ -14,14 +13,18 @@
     }
     label{
         position: absolute;
-        top: 50%;
+        display: flex;
+        // top: 50%;
         transform: translateY(-50%);
         left: 2rem;
         transition: .3s ease;
         opacity: .8;
         z-index: 0;
-        pointer-events: none;
+        // pointer-events: none;
         background-color: white;
+        p{
+            margin: 0 .5rem;
+        }
     }
     input{
         padding: 2rem;

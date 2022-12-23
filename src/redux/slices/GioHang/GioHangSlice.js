@@ -86,7 +86,7 @@ const GioHangSlice = createSlice({
           state.cartItems[index].qty++;
           state.totalPrice += action.payload.giaBan;
           state.finalPrice = state.totalPrice;
-          state.totalQty+=1;
+          // state.totalQty+=1;
           state.cartItems[index].giaBanTong +=state.cartItems[index].giaBan;
           state.phiShip = 0;
           localStorage.setItem("cart", JSON.stringify(state));
@@ -126,7 +126,7 @@ const GioHangSlice = createSlice({
     },
     RemoveItem:(state,action)=>
     {
-        console.log({action})
+      console.log(action.payload)
       const cartItem = state.cartItems.find(
         (x) =>
           x.maSanPham == action.payload.maSanPham &&
@@ -138,8 +138,7 @@ const GioHangSlice = createSlice({
         const index = state.cartItems.indexOf(cartItem);
         if(index>-1)
         {
-          alert(cartItem.giaBan)
-          state.totalQty-= cartItem.qty;
+          state.totalQty-=1;
           state.totalPrice-=(cartItem.giaBan*cartItem.qty);
           state.cartItems.splice(index,1);
           if(state.cartItems.length<=0)
@@ -155,7 +154,26 @@ const GioHangSlice = createSlice({
         }
       }
       else{
-        alert("Sai ")
+        console.log("loi trong khi xoa khoi gio hang")
+      }
+    },
+    UpdateQtyItem:(state,action)=>
+    {
+      const {maSP,colorId,sizeId,qty} = action.payload;
+      let items = [...state.cartItems];
+      const obj =items.find(x=>x.maSanPham==maSP && x.color == colorId.colorId.trim() && x.size ==sizeId.idSize);
+      const index = items.indexOf(obj)
+      console.log(action.payload)
+      if(index>-1)
+      {
+        state.cartItems[index].qty =qty; 
+        state.totalPrice = ((state.cartItems[index].giaBan * qty) );
+        state.finalPrice = state.totalPrice;
+        localStorage.setItem("cart", JSON.stringify(state));
+        notification.open({
+          message:"Cập nhật thành công",
+          type:"success"
+        })
       }
     }
   },
@@ -221,6 +239,6 @@ const GioHangSlice = createSlice({
     }
 });
 
-export const { ViewCart, AddToCart ,RemoveItem} = GioHangSlice.actions;
+export const { ViewCart, AddToCart ,RemoveItem,UpdateQtyItem} = GioHangSlice.actions;
 
 export default GioHangSlice;

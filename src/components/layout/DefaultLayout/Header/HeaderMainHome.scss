@@ -78,7 +78,7 @@
                 align-items: center;
                 &:hover 
                 {
-                 border: 2px solid black;
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;   
                 }
                 .searchIcon{
                    cursor: pointer;
@@ -107,6 +107,7 @@
                 align-items: center;
                 .cartIcon
                 {
+                 
                     font-size: 3rem;
                 }
         }

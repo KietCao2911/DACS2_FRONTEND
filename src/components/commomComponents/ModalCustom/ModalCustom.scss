@@ -1,7 +1,7 @@
 .ModalCustom{
     position: absolute;
-    width: 100%;
-    height: 200vh;
+    width: 100vw;
+    height: 500vh !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -17,7 +17,7 @@
             position: absolute;
             background-color: white;
             padding: 4rem;
-            top: 50%;
+            top: 60%;
             left: 50%;
             transform: translate(-50%,-50%);
             max-width: 80rem;

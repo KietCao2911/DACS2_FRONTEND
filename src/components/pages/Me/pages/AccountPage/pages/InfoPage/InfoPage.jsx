@@ -5,11 +5,13 @@ import {Modal} from "antd"
 import ModalCustom from '~/components/commomComponents/ModalCustom'
 import { InputText } from '~/components/commomComponents/InputText'
 import MyButton from '~/components/commomComponents/Button'
+import InfoForm from '~/components/Forms/InfoForm'
 const InfoPage = () => {
     const dispatch = useDispatch();
     const {user} = useSelector(state=>state.XacThuc)
     const [modalInfo,setModalInfo] = useState(false);
     const [userName,setUserName] = useState(user.info.tenKhachHang||"")
+    const [wrong,setWrong] = useState(false)
     const [dateInfo,setDateInfo] = useState({
         dd:{
             value:"",
@@ -72,30 +74,13 @@ const InfoPage = () => {
 
             </div>
         </div>
-       <ModalCustom visiable={modalInfo} onCancel={()=>setModalInfo(false)}>
+       <Modal visible={modalInfo} onCancel={()=>setModalInfo(false)}>
       <div className="formUpdateInfo">
       <strong>CHỈNH SỬA THÔNG TIN CỦA BẠN</strong>
-        <InputText maxLength={10} value={userName} onChange={(e)=>setUserName(e.target.value)} label="Tên người dùng"></InputText>
-        <strong>Ngày sinh</strong>
-        <div className="infoDate">
-            <InputText number={true} errorProp={dateInfo.dd.error} maxLength={2} label="dd" value={dateInfo.dd.value} onChange={(e)=>handleSetDay(e.target.value)}></InputText>
-            <InputText number={true} maxLength={2} label="mm" value={dateInfo.mm.value} ></InputText>
-            <InputText number={true} maxLength={4} label="yyyy" value={dateInfo.yyyy.value} ></InputText>
-        </div>
-            <strong>Giới tính</strong>
-        <div className="sexInfo">
-            <div className="RadioItem">
-                <input type="radio" value={"true"} checked={sex?true:null} id='nu' name='sex' onChange={(e)=>(setSex(e.target.value=="true"?true:false))}/>
-                <label htmlFor="nu">NAM</label>
-            </div>
-            <div className="RadioItem">
-                <input value={"false"} onChange={(e)=>(setSex(e.target.value=="true"?true:false))} type="radio" id='nam' name='sex' checked={sex==false?true:null}/>
-                <label htmlFor="nam">NỮ</label>
-            </div>
-        </div>
+            <InfoForm/>
             <MyButton style={{width:"100%"}}>CẬP NHẬT</MyButton>
       </div>
-       </ModalCustom>
+       </Modal>
     </div>
   )
 }

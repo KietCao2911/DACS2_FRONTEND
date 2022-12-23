@@ -1,16 +1,17 @@
 import * as Method from "~/axiosRequest/request";
 export const GetAllProducts = async (id,params) => {
   try {
-    const res = await Method.Get("/api/admin/SanPham/"+id||null, params);
+    console.log({id,params})
+    const res = await Method.Get("/api/san-pham/"+id, {params});
     return res;
   } catch (err) {
     throw err;
   }
 };
 
-export const GetProductById = async (id) => {
+export const GetProductById = async (slug) => {
   try {
-    const res = await Method.Get(`/api/admin/SanPham/san-pham/${id}`);
+    const res = await Method.Get(`/api/admin/SanPham/san-pham/${slug}`);
     return res;
   } catch (error) {
     throw error;
@@ -68,7 +69,7 @@ export const PutCategoryProduct = async(maSP,body)=>
 export const PostAddQty = async(body)=>
 {
   try {
-    const res = await Method.Post("/api/SoLuongDetail",body)
+    const res = await Method.Post("/api/admin/SoLuongDetail",body)
     return res;
   } catch (error) {
     throw error
@@ -99,6 +100,24 @@ export const DeleteImg = async(fileName,_id,maSP,maMau)=>
 {
   try {
     const res = await Method.Delete(`/api/admin/SanPham/RemoveImg?fileName=${fileName}&_id=${_id}&maSP=${maSP}&maMau=${maMau}`);
+    return res;
+  } catch (error) {
+    throw error
+  }
+}
+export const HotProducts = async()=>
+{
+  try {
+    const res = await Method.Get('/api/Home/ProductsHot');
+    return res;
+  } catch (error) {
+    throw error
+  }
+}
+export const SearchProducts =async(s)=>
+{
+  try {
+    const res = await Method.Get("/api/san-pham/undefined",{params:{s}});
     return res;
   } catch (error) {
     throw error

@@ -21,9 +21,6 @@ const AdminLayout = ({ children }) => {
         <ActionSideBar />
       </Sider>
       <Layout className="Admin_Body">
-        <Header className="Header">
-          <MyHeader />
-        </Header>
         <Content> {children}</Content>
       </Layout>
     </Layout>

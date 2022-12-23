@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import "antd/dist/antd.css";
+// import "antd/dist/";
 import GlobalStyle from "./components/GlobalStyles";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -8,7 +8,12 @@ import "react-phone-input-2/lib/style.css";
 import "swiper/css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import connection,{start} from "./components/utils/SignalR";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+connection.onclose(async () => {
+  await start();
+});
+start();
 root.render(
   <GlobalStyle>
     <Provider store={store}>

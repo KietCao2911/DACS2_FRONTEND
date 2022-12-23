@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {CloseOutlined} from "@ant-design/icons"
 import "./ModalCustom.scss"
 const ModalCustom = (props) => {
-    const {children,visiable=false,onCancel} = props
+    const {children,show,onCancel} = props
     const handleCancel = ()=>
     {
         onCancel();
@@ -17,7 +17,7 @@ const ModalCustom = (props) => {
         }
     }
   return (
-    <div className='ModalCustom' {...props} style={{display:`${visiable?"block":"none"}`}}>
+    <div className='ModalCustom' {...props} style={{display:`${show?"block":"none"}`}}>
         <div className="ModalContainer" onClick={handleCancel} onKeyUp={(e)=>handleEscBtn(e)}>
         
         </div>

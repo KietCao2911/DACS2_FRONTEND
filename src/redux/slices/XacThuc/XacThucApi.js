@@ -1,5 +1,4 @@
 import * as Method from "~/axiosRequest/request";
-
 export const GetCurrentUser = async () => {
   try {
     const res = await Method.Get("/api/Auth/GetUser");
@@ -8,6 +7,7 @@ export const GetCurrentUser = async () => {
     throw error;
   }
 };
+
 export const UserSignIn = async (body) => {
   try {
     const res = await Method.Post("/api/Auth/SignIn", body);
@@ -24,10 +24,19 @@ export const GetRefreshToken = async () => {
     throw error;
   }
 };
-export const UpdateProfile  = async (id,body)=>
+export const AddAddress  = async (body)=>
 {
   try {
-    const res = await Method.Post("/api/Me/UpdateProfile/"+id,body);
+    const res = await Method.Put("/api/Me/AddAddress",body);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+export const DeleteAddress = async(id)=>
+{
+  try {
+    const res= await Method.Delete("/api/Me/DeleteAddress/"+id);
     return res;
   } catch (error) {
     throw error;

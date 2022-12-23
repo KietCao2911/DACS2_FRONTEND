@@ -113,7 +113,18 @@ const ThemSanPham = ({
         >
           <Input />
         </Form.Item>
-
+        <Form.Item
+          label="Mã phiếu nhập"
+          name="MaPhieuNhap"
+          rules={[
+            {
+              required: true,
+              message: "Không bỏ trống trường này!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
         <Form.Item
           label="Giá bán"
           name="GiaBan"
@@ -124,7 +135,7 @@ const ThemSanPham = ({
             },
           ]}
         >
-          <InputNumber placeholder="Số lượng" />
+          <InputNumber placeholder="Giá bán" />
         </Form.Item>
         <Form.Item label="Tên bộ sưu tập" name="IdBst">
           <Select placeholder="Chọn bộ sưu tập">

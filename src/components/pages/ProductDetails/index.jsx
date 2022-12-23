@@ -12,9 +12,9 @@ import {
   Button,
   Breadcrumb,
   notification,
-  Comment,
   Tooltip,
-  Avatar
+  Avatar,
+  message
 } from "antd";
 import { Pagination } from "swiper";
 import SizeSelect from "./components/SizeCompoent";
@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ArrowRightOutlined, CarOutlined,RollbackOutlined} from "@ant-design/icons";
 import * as Api from "~/redux/slices/SanPham";
 import * as ApiSize from "~/redux/slices/KichCoSlice";
+import connection from "~/components/utils/SignalR";
 import GioHangSlice, {
   ViewCart,
   AddToCart,
@@ -38,29 +39,108 @@ import { BASE_URL } from "~/const";
 import ReactHtmlParser from "react-html-parser";
 import ColorComponent from "./components/ColorComponent";
 import { v4 as uuidv4 } from "uuid";
+import { fetchGetQTY } from "~/redux/slices/ChiTietSoLuong/CtslAPI";
+import * as MessageAPI from "~/redux/slices/Messages/MessagesSlice";
+import { number } from "yup";
 const { Panel } = Collapse;
 const actions = [
   <Tooltip><Rate value={5}/></Tooltip>
 
 ];
+class IMessage {
+  constructor() { 
+    this.content=String;
+    this.createdAT= String;
+    this.creatorID= number;
+    this.id=number;
+    this.messageNavigation={};
+    this.messages= [];
+    this.parentMessageID= number;
+    this.userNavigation= {}
+   }
+}
+const nestComments = (root, xs) => 
+xs.filter (({parentMessageID}) => parentMessageID == root)
+   .map(({id, parentMessageID, ...rest}) => {
+    //  ({id, ...rest, messages: nestComments (id, xs)})
+    // return ( <Comment
+    //   author={<a>{rest.userNavigation.tenHienThi||"{NULL}"}</a>}
+    //   avatar={<Avatar src={`${BASE_URL}wwwroot/res/users/${rest.userNavigation.tenTaiKhoan.trim()}/avatars/${rest.userNavigation.avatar}`}        alt="Han Solo"></Avatar>}
+    //   content={
+    //     <p>
+    //      {rest.content}
+    //     </p>
+    //   }
+    // >
+    //  {nestComments(id,xs)} 
+    // </Comment>)
+  return <h1>sd</h1>
+   })
 const TrangChiTietSanPham = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.SanPham);
-  const { id } = useParams();
-  console.log({ product });
+  const {  Messages} = useSelector((state) => state.Message);
+  const { slug } = useParams();
+  
+  var data =[...Messages]||[]
+  console.log({data});
+ 
+  useEffect(()=>
+  {
+    const JoinToGroup =async()=>
+    {
+      if(connection.state=="Connected")
+      {
+    
+        await connection.invoke("AddToGroup", {MaSP:slug.split("_")[1],UserID:"0325560455"});
+      }else{
+        alert("NOT CONNECTED")
+      }
+    }
+    JoinToGroup();
+    return async()=>
+    {
+      return await connection.invoke("RemoveFromGroup", {MaSP:slug.split("_")[1],UserID:"0325560455"});
+    }
+  },[])
+  connection.on("ReceiveMessage",(message)=>
+  {
+    const res = JSON.parse(message);
+    console.log(res);
+  })
+  connection.on("Send",(message)=>
+  {
+    // alert(message)
+  })
   useEffect(() => {
-    dispatch(Api.fetchGetProduct({ id }));
-  }, []);
-  const handleAddToCart = () => {
+    dispatch(MessageAPI.fetchGetMessages())
+    dispatch(Api.fetchGetProduct({ slug }));
+  }, [slug]);
+  const handleAddToCart =async () => {
     if(product.sizeSelected)
     {
     let CartItem = { ...product };
     CartItem.qty = 1;
     CartItem.color = product.colorSelected;
     CartItem.size = product.sizeSelected.idSize;
-    console.log({ color: CartItem.color, size: CartItem.size });
-    dispatch(AddToCart(CartItem));
+    try {
+        const res = await fetchGetQTY(product.maSanPham, product.colorSelected,product.sizeSelected.idSize)
+        if(res<=0)
+        {
+          notification.open({
+            message:"Sản phẩm vừa hết hàng",
+            type:"error"
+      })
+        }
+        else
+        {
+          dispatch(AddToCart(CartItem));         
+        }
+    } catch (error) {
+      throw error
+    }
+    
     }
     else{
       notification.open({
@@ -81,9 +161,6 @@ const TrangChiTietSanPham = () => {
                     return (
                       <Image
                         key={uuidv4()}
-                        // src={`${BASE_URL}wwwroot/res/SanPhamRes/Imgs/${product?.maSanPham.trim()}/${
-                        //   item.value
-                        // }`}
                         src={item.url}
                         preview
                       />
@@ -115,26 +192,15 @@ const TrangChiTietSanPham = () => {
               </Swiper>
             </Col>
           </Row>
-          {/* <Collapse style={{ wordBreak: "break-all" }}>
-            <Panel header="Mô tả">{ReactHtmlParser(product?.mota)}</Panel>
-          </Collapse> */}
           <div className="PageContainer">
           <MyCollapse label="Mô tả" >
           {ReactHtmlParser(product?.mota)}
           </MyCollapse>
-          <MyCollapse label="Đánh giá">
-            <Comment actions={actions} avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-      content={
-        <p>
-         Sản phẩm tuyệt vời
-        </p>
-      }
-      datetime={
-        <Tooltip title="2016-11-22 11:22:33">
-          <span>8 hours ago</span>
-        </Tooltip>
-      }/>
-          </MyCollapse>
+
+          <div className="comments">
+            <strong>BÌNH LUẬN</strong>
+            {nestComments(null,data)}
+          </div>
           </div>
          
         </Col>
@@ -159,15 +225,18 @@ const TrangChiTietSanPham = () => {
             </h2>
             <span>
               <h3>Kích cỡ</h3>
-              <SizeSelect
-                items={
-                  product?.sizeDisplay?.length > 0 ? product.sizeDisplay[0] : []
-                }
-              />
+              {
+                 product?.sizeDisplay?.length > 0 ? <SizeSelect
+                 items={
+                   product?.sizeDisplay?.length > 0 ? product.sizeDisplay[0] : []
+                 }
+               />:<strong style={{color:"	#df4759"}}>{`Sản phẩm đã hết hàng :(`}</strong>
+              }
+             
             </span>
             <span>
               <h3>Màu sắc</h3>
-              <ColorComponent items={product?.chiTietSoLuong}></ColorComponent>
+              <ColorComponent items={product?.color}></ColorComponent>
             </span>
 
             <button className="AddToCart" onClick={handleAddToCart}>

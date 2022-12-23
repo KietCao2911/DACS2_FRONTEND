@@ -15,24 +15,25 @@ const { Option } = Select;
 const {} = Input;
 
 const Item = (props) => {
-  const {colorID,value,options,maSP,_id} = props;
+  const {colorID,value,options,maSP,_id,maPN} = props;
   const {colors,sizes} = options;
   const {useForm} = Form;
   const [form] = useForm()
+  console.log({value})
   const dispatch = useDispatch();
   const handleAdd=()=>
    {
       const size = form.getFieldValue("size");
       const color= form.getFieldValue("color")
-      const qty= form.getFieldValue("qty")
-      dispatch(SanPhamAPI.fetchPostAddQty({body:{_idSize:size,maMau:color,Soluong:qty,maSanPham:maSP}}))
+      const maPN = form.getFieldValue("maPN");
+      dispatch(SanPhamAPI.fetchPostAddQty({body:{_idSize:size,maMau:color,maSanPham:maSP}}))
    }
    const handleDelete =(id)=>
    {
     dispatch(SanPhamAPI.fetchDeleteAddQty({id}));
    }
 return <div className="ItemQty" >
-    <Form  layout="inline" form={form} initialValues={{size:value?.idSize||null,color:colorID||null,qty:value?.soLuong||0}} >
+    <Form  layout="inline" form={form} initialValues={{size:value?.idSize||null,color:colorID||null,qty:value?.soLuong||0,maPN}} >
       <Form.Item name="size" label={"Kích thước"}>
       <Select  >
     <Option value={null}>Vui lòng chọn kích thước</Option>
@@ -45,9 +46,6 @@ return <div className="ItemQty" >
     {colors&&colors.map(item=><Option value={item.maMau.trim()}>{item.tenMau}</Option>)}
     </Select>
     </Form.Item>
-<Form.Item  name="qty" label={"Số lượng"}>
-<InputNumber placeholder="Số lượng" min={0} />
-</Form.Item>
 <Form.Item>
 {value?<><Button onClick={handleAdd}>Sửa</Button><Button onClick={()=>handleDelete(_id)}>Xóa</Button></>:<Button onClick={handleAdd}>Thêm</Button>}
 </Form.Item>
@@ -64,6 +62,7 @@ const QuanLySoLuong = ({ init = [], maSanPham }) => {
   const dispatch = useDispatch();
   const [colorSelected,setColorSelected] = useState(null);
   const [qtyDetails,setQtyDetails] = useState(init||[]);
+  console.log({qtyDetails})
   useEffect(()=>
   {
     handleFilterQtysByColorId(colorSelected);
@@ -95,7 +94,7 @@ const QuanLySoLuong = ({ init = [], maSanPham }) => {
         {init&&init.map(item=> <option value={item.idmau}>{item.colorLabel}</option>)}
       </SelectInput>
       {qtyDetails&&qtyDetails.map(item=>
-        item.sizeDetails.map(size=><Item key={v4()} colorID={item.idmau.trim()} value={size} options={{colors,sizes}} maSP={maSanPham} _id={size._id}/>))}
+        item.sizeDetails.map(size=><Item key={v4()} colorID={item.idmau.trim()}   value={size} options={{colors,sizes}} maSP={maSanPham} _id={size._id}/>))}
     </>
   );
 };

@@ -55,7 +55,7 @@ const TrangSanPham = () => {
   const color = searchParams.get("color") || null;
   // useEffect(() => {
   //   dispatch(
-  //     Api.fetchGetAllProductsUser({
+  //     Api.fetchGetAllProducts({
   //       id: slug,
   //       query: {
   //         sort,

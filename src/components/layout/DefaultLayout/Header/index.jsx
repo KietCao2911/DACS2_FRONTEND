@@ -13,25 +13,23 @@ import {
   CloseOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { Badge, Card } from "antd";
+import { Badge, Card, Modal } from "antd";
 import { Link } from "react-router-dom";
+import MyButton from "~/components/commomComponents/Button";
+import ModalCustom from "~/components/commomComponents/ModalCustom";
+import InputText from "~/components/commomComponents/InputText";
+import SearchResult from "./components/SearchResult";
 function HeaderMainHome() {
-  const [searchValue, setSearchValue] = useState("");
   const [searchDrawer, setSearchDrawer] = useState(false);
+  const [searchModal, setSearchModal] = useState(false);
   const [menuMobileOpen, setMenuMobileOpen] = useState(false);
   const { totalQty } = useSelector((state) => state.GioHang);
 
-  const handleClearTextSearch = () => {
-    setSearchValue("");
-  };
   const handleOpenSearchDrawer = () => {
     setSearchDrawer(true);
   };
   const handleOpenMenuDrawer = () => {
     setMenuMobileOpen(true);
-  };
-  const handleSearch = (e) => {
-    setSearchValue(e.target.value);
   };
   return (
     <div
@@ -57,7 +55,7 @@ function HeaderMainHome() {
           <BarsOutlined onClick={handleOpenMenuDrawer} />
         </div>
         <div className="Logo">
-          <img src={shoesLogo} alt="" />
+          <Link to={"/"}><img src={shoesLogo} alt="" /></Link>
         </div>
         <div className="Menu">
           <MenuComponent />
@@ -71,20 +69,8 @@ function HeaderMainHome() {
           </div>
           <div className="Search_Container">
             <div className="content">
-              <input
-                type="text"
-                className="SearchInput"
-                placeholder="Tìm kiếm"
-                value={searchValue}
-                onChange={handleSearch}
-              />
-              {searchValue == "" && <SearchOutlined className="searchIcon" />}
-              {searchValue && (
-                <CloseOutlined
-                  className="closeIcon"
-                  onClick={handleClearTextSearch}
-                />
-              )}
+               
+            <SearchOutlined className="searchIcon"  onClick={()=>setSearchModal(true)}/>
             </div>
             {/* <div className="SearchResult">
               <h3>SẢN PHẨM</h3>
@@ -104,6 +90,7 @@ function HeaderMainHome() {
           </div>
         </div>
       </div>
+            <SearchResult setVisible={setSearchModal} visible={searchModal}></SearchResult>
     </div>
   );
 }

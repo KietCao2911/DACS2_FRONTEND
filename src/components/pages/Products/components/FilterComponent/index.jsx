@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SanPhamSlice, * as Api from "~/redux/slices/SanPham";
 import MyButton from "~/components/commomComponents/Button";
+import MyCollapse from "~/components/commomComponents/Collapse";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -34,9 +35,6 @@ const items = [
     getItem(<Link to={"?sort=date-newest"}> Mới nhất </Link>, uuidv4()),
     getItem(<Link to={"?sort=date-oldest"}> Cũ nhất </Link>, uuidv4()),
     getItem(<Link to={"?sale=true"}> Đang giảm giá </Link>, uuidv4()),
-  ]),
-  getItem("Kích cỡ", uuidv4(), null, [
-    getItem(<SizeOptions />, uuidv4(), null, null),
   ]),
 ];
 const Filter = () => {
@@ -65,8 +63,6 @@ const Filter = () => {
       })
     );
   }, [searchParams,slug]);
-  const handleAddSearchParams = () => {
-  };
   return (
     <div className="Filter">
       <MyButton style={{border:"unset",borderRadius:"unset",maxWidth:"25rem"}}onClick={() => setOpenDrawer(true)}>
@@ -79,14 +75,8 @@ const Filter = () => {
       >
         <h3>LỌC VÀ SẮP XẾP</h3>
         <Menu items={items} mode="inline"></Menu>
-        <Collapse>
-          <Panel header="Theo màu sắc">
-            <ColorOptions />
-          </Panel>
-        </Collapse>
-        <Button block type="primary" onClick={handleAddSearchParams}>
-          Áp dụng
-        </Button>
+        <ColorOptions />
+        <SizeOptions />
       </Drawer>
     </div>
   );

@@ -12,7 +12,8 @@ import CustomSpin from "~/components/CustomSpin";
 import SwiperCore, { Autoplay } from "swiper";
 import XacThucSlice, * as XacThucAPi from "./redux/slices/XacThuc";
 import { useDispatch, useSelector } from "react-redux";
-
+import { v4 } from "uuid";
+import NotFound from "./components/commomComponents/NotFound";
 function App() {
   SwiperCore.use([Autoplay]);
   const dispatch = useDispatch();
@@ -25,22 +26,23 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route element={<h1>404 Not Fount</h1>} path={"*"}></Route>
+          <Route element={<NotFound/>} path={"*"}></Route>
           {adminRoute.map((route, index) => {
             const Page = route.element;
 
             return (
               <Route
-                key={index}
+              
+                key={v4()}
                 element={
-                  // user.role == "1" ? (
+                  // user.role == "1" && user ? (
                   //   <AdminLayout>
                   //     <Suspense fallback={<CustomSpin />}>
                   //       <Page />
                   //     </Suspense>
                   //   </AdminLayout>
                   // ) : (
-                  //   <h1>KHONG DU QUYEN TRUY CAP</h1>
+                  //  <NotFound/>
                   // )
                   <AdminLayout>
                     <Suspense fallback={<CustomSpin />}>
@@ -57,7 +59,7 @@ function App() {
             const Layout = route.layout || DefaultLayout;
             return (
               <Route
-                key={index}
+                key={v4()}
                 element={
                   <Layout>
                     <Page />
@@ -73,14 +75,14 @@ function App() {
             const Layout = route.layout || DefaultLayout;
             return (
               <Route
-                key={index}
+                key={v4()}
                 element={
-                  user?.role == 0 ? (
+                  user?.role == 0||user?.role==1 &&user ? (
                     <Layout>
                       <Page />
                     </Layout>
                   ) : (
-                    <h1>404</h1>
+                    <NotFound/>
                   )
                 }
                 path={route.path}

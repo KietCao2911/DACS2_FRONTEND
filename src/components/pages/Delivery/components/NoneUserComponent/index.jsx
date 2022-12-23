@@ -3,18 +3,16 @@ import { InputText } from '~/components/commomComponents/InputText'
 import { SelectInput } from '~/components/commomComponents/SelectInput'
 import { useDispatch,useSelector } from 'react-redux'
 import { useEffect,useMemo } from 'react'
-import GioHangSlice,* as GiaoHangNhanhApi from '~/redux/slices/GioHang/GioHangSlice'
+import  GiaoHangNhanhApi from '~/redux/slices/GioHang/GioHangSlice'
 import ThanhToanSlice,{AddressInfo,ChangeValueField} from '~/redux/slices/ThanhToanSlice'
 import "./NoneUserComponent.scss"
 import { useState } from 'react'
-import { Address } from 'glamorous'
 const NoneUserInfo = (props) => {
     const {ghnAPI,totalPrice} = useSelector(state=>state.GioHang);
     const {Provinces,Districts,Wards,FeeInfo,DistrictID,Loading} = ghnAPI;
-    const {GuessInfo,setGuessInfo} =props
+    const {GuessInfo,setGuessInfo,setWrong} =props
+
     const dispatch = useDispatch();
-    console.log("NONE USER CPN")
-    console.log({PROPSNONEUSER:props})
     useEffect(()=>
     {
       dispatch(GiaoHangNhanhApi.fetchGetProvinces())
@@ -24,7 +22,7 @@ const NoneUserInfo = (props) => {
         console.log({event:e.target.value})
         if(e.target.value == null)
         {
-          alert("PROVI NULL")
+        
         }
         else
         {
@@ -36,7 +34,7 @@ const NoneUserInfo = (props) => {
     {
       if(e.target.value == null)
       {
-        alert("DISTRICT NULL")
+        
       }
       else
       {
@@ -49,7 +47,7 @@ const NoneUserInfo = (props) => {
     {
       if(e.target.value == null)
       {
-        alert("WARD NULL")
+       
         return ;
       }
       else
@@ -88,15 +86,15 @@ const NoneUserInfo = (props) => {
 
     }
   return (
-   <div class="NoneUserInfo">
+   <div className="NoneUserInfo">
         <h1>THÔNG TIN GIAO HÀNG</h1>
         <div className="InfoGuessName" >
-        <InputText maxLength={50} value={GuessInfo.Name} label="Tên"onChange={(e)=>handleOnChangeInfo(e,"Name")}></InputText>
+        <InputText maxLength={50} setWrong={setWrong} value={GuessInfo.Name} label="Tên"onChange={(e)=>handleOnChangeInfo(e,"Name")}></InputText>
         </div>
         <div  style={{margin:"0 -1rem"}}>
-        <InputText onChange={(e)=>handleChangeDsc(e)}  value={GuessInfo.AddressDsc} label="Chi tiết địa chỉ (Số nhà, tên đường,...)"></InputText>
-        <InputText maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Phone")} number={true} value={GuessInfo.Phone}  label="Số điện thoại"></InputText>
-        <InputText maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Email")}  value={GuessInfo.Email}  label="Email"></InputText>
+        <InputText onChange={(e)=>handleChangeDsc(e)} setWrong={setWrong}  value={GuessInfo.AddressDsc} label="Chi tiết địa chỉ (Số nhà, tên đường,...)"></InputText>
+        <InputText setWrong={setWrong} maxLength={10} onChange={(e)=>handleOnChangeInfo(e,"Phone")} type="phone" value={GuessInfo.Phone}  label="Số điện thoại"></InputText>
+        <InputText type="email" setWrong={setWrong} maxLength={50} onChange={(e)=>handleOnChangeInfo(e,"Email")}  value={GuessInfo.Email}  label="Email"></InputText>
         </div>
         <div  className="InfoAddress" >
         <SelectInput  loading={Loading.Provinces} name="province" defaultLabel="Tỉnh/Thành phố" onChange={e=>getDistricts(e)}>

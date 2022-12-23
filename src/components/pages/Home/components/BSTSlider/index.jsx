@@ -9,32 +9,32 @@ import { useEffect } from "react";
 import { BASE_URL } from "~/const";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
+import { v4 } from "uuid";
 const BSTSlider = () => {
   const { boSuuTaps } = useSelector((state) => state.BoSuuTap);
-  console.log(boSuuTaps);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Api.fetchAllBST({}));
+    
   }, []);
 
   return (
     <Swiper
-      // loop={true}
-      // autoplay={{
-      //   delay: 5000,
-      //   disableOnInteraction: false,
-      // }}
-      // spaceBetween={30}
-      // pagination={{
-      //   clickable: true,
-      // }}
+      loop={true}
+      autoplay={{
+        delay: 5000,
+        disableOnInteraction: false,
+      }}
+      spaceBetween={30}
+      pagination={{
+        clickable: true,
+      }}
       modules={[Pagination]}
       className="mySwiper"
     >
       {boSuuTaps.map((item) => {
         return (
-          <SwiperSlide>
-            <Link to={"notcontent"}>
+          <SwiperSlide key={v4()}>
+            <Link to={"/bst/"+item.slug}>
               {" "}
               <img
                 style={{

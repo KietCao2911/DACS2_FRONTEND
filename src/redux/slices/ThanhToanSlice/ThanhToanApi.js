@@ -9,3 +9,12 @@ export const fetchPostWithGuess =async(body)=>
         throw error
     }
 }
+export const fetchPostWithUser =async(body)=>
+{
+    try {
+        const res = await Method.Post("api/HoaDon/PostWithUser",body);
+        return res;
+    } catch (error) {
+        throw error
+    }
+}

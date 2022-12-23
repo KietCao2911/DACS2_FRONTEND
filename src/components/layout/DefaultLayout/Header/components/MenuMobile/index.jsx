@@ -1,8 +1,10 @@
+import { UserOutlined } from "@ant-design/icons";
 import { Drawer, Menu } from "antd";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import MyButton from "~/components/commomComponents/Button";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -16,6 +18,7 @@ function getItem(label, key, icon, children, type) {
 const MenuMobile = ({ menuMobileOpen, setMenuMobileOpen }) => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.DanhMuc);
+  const { user } = useSelector((state) => state.XacThuc);
   const [data, setData] = useState([]);
   useEffect(() => {
     setData(
@@ -53,7 +56,9 @@ const MenuMobile = ({ menuMobileOpen, setMenuMobileOpen }) => {
       className="MenuMobile"
     >
       <Menu items={data || []} mode={"inline"} />
-    </Drawer>
+      {Object.keys(user).length>0&&<Link to={'/me'}> <MyButton style={{border:"unset"}} Icon={<UserOutlined/>}>Người dùng : {user.userName}</MyButton></Link>
+      } 
+         </Drawer>
   );
 };
 

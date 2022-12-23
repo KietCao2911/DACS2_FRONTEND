@@ -7,59 +7,43 @@ import glamor from "glamor";
 import MyButton from "../Button";
 import { useState } from "react";
 import convertVND from "~/components/utils/ConvertVND";
-const DivCard = glamorous.div({
-  " &::before": {
-    backgroundColor: "red",
-  },
-});
+import { v4 } from "uuid";
 
 const CardProduct = ({ value = {} }) => {
-  const { maSanPham, tenSanPham, giaBan,giamGia, boSuuTap, slug, chiTietSoLuong ,color,giaDaGiam} =
+  const { maSanPham, tenSanPham, giaBan,giamGia, boSuuTap,key, slug, chiTietSoLuong ,color,giaDaGiam} =
   value;
-  const [img,setImg]  = useState(color[0]||null);
+  const [img,setImg]  = useState(color&&color[0]||null);
   const handleHover=(index)=>
 {
   setImg(color[index])
 }
   return (
-      <DivCard
-        className={"Card"}
-        css={{
-          // " &::before": {
-          //   background: "#" + img?.idMaumau||'fff',
-          // },
-          background:`linear-gradient(90deg,${'#333'},${"#"+img?.idMaumau})`
-        }}
-      >
+     <div className="Card">
+      <Link to={`/san-pham/${slug?.trim()}`}>
         {giamGia>0&&<span className="band" data={convertVND(giaBan/((100-giamGia)/100))}></span>}
         <div className="ImgBox">
           <img
             src={
-              img?.hinhAnhInfo[0]?.url||null 
+              img?.hinhAnhInfo[0]?.url||"" 
             }
             alt=""
           />
         </div>
         <div className="ContentBx" data-content={maSanPham}>
-          <div className="Size">
-            <h3>Size: </h3>
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-          </div>
           <div className="Color">
-            <h3>Color: </h3>
-            {color&&color?.map((cl,index) => (
-              <span onMouseEnter={()=>handleHover(index)} style={{backgroundColor:"#"+cl.idMaumau}}></span>
-            ))}
+            {color?color&&color?.map((cl,index) => (
+              <span key={v4()} onMouseEnter={()=>handleHover(index)} style={{backgroundColor:"#"+cl?.idMaumau||"fff"}}></span>
+            )):null}
           </div>
+          <div className="tenSanPham">{tenSanPham}</div>
           <div className="Price">{convertVND(giaBan)}  </div>
-              <Link to={`/san-pham/${slug.trim()}/${maSanPham}`} className="btnOrder">
-                <button>Xem chi tiết</button>
-              </Link>
-        </div>
-      </DivCard>
 
+              {/* <Link to={`/san-pham/${slug?.trim()}`} className="btnOrder">
+                <MyButton>Xem chi tiết</MyButton>
+              </Link> */}
+        </div>
+        </Link>
+     </div>
   );
 };
 

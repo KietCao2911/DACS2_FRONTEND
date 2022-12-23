@@ -28,7 +28,6 @@ const PhoneOTP = () => {
       });
     } else {
       setDisable((prev) => {
-        console.log({ prev });
         return { ...prev, status: true };
       });
     }
@@ -72,7 +71,6 @@ const PhoneOTP = () => {
     // setUpCaptcha();
     if(phoneValue.length>0)
     {
-      console.log("onSignInSubmit")
       let phoneNumber = "+84" + phoneValue;
       console.log({ phoneNumber });
       const appVerifier = window.recaptchaVerifier;
@@ -88,9 +86,6 @@ const PhoneOTP = () => {
         // ...
         console.log({ error });
       });
-    }
-    else{
-      alert("Wrong phone number!")
     }
     setDisable({ status: true, time: 10, firstTimeClick: true });
   };
